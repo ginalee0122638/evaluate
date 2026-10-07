@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#008ABC">
+  <title>Build Benchmarks | Kaggle</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="app" data-page="build">
+    <div class="main" role="main" id="site-content">
+      <div class="page">
+
+        <!-- Hero -->
+        <section class="hero" aria-label="Build Benchmarks">
+          <div class="hero__eyebrow">Kaggle · Build Benchmarks</div>
+          <h1 class="hero__title">Build the benchmark the field measures against.</h1>
+          <span class="hero__lede">Turn your evaluation into a living public leaderboard. Kaggle runs frontier models on your tasks as they launch, with open methodology, full run logs, and results anyone can reproduce.</span>
+          <div class="hero__actions" id="start">
+            <button class="btn btn--primary"><span class="gs">add</span><span>Start building</span></button>
+            <a class="btn btn--outlined" href="#">Read the docs</a>
+            <a class="btn btn--text-link" href="https://github.com/Kaggle/kaggle-benchmarks" target="_blank" rel="noopener">Benchmarks SDK<span class="gs">arrow_outward</span></a>
+          </div>
+        </section>
+
+        <!-- Value props (highlighted) -->
+        <section class="values" aria-labelledby="why-kaggle">
+          <div class="values__glow" aria-hidden="true"></div>
+          <div class="values__head">
+            <div class="values__eyebrow">Why build on Kaggle</div>
+            <h2 id="why-kaggle" class="values__title">Results people can trust, because they can check them.</h2>
+          </div>
+          <div class="values__grid">
+            <article class="value">
+              <div class="value__top"><span class="value__num">01</span><span class="gs value__icon">visibility</span></div>
+              <h3 class="value__title">Transparency</h3>
+              <p class="value__text">Every run is open to inspection: prompts, model outputs, scores and cost are logged and public, so anyone can see exactly how a number was produced.</p>
+              <ul class="value__list">
+                <li><span class="gs">check</span>Open methodology on every leaderboard</li>
+                <li><span class="gs">check</span>Per-task outputs and run logs</li>
+                <li><span class="gs">check</span>Speed and cost reported alongside scores</li>
+              </ul>
+            </article>
+            <article class="value">
+              <div class="value__top"><span class="value__num">02</span><span class="gs value__icon">hub</span></div>
+              <h3 class="value__title">Comprehensiveness</h3>
+              <p class="value__text">Your benchmark is run on models from every major lab, and new models are added as they launch, so your leaderboard never goes stale.</p>
+              <ul class="value__list">
+                <li><span class="gs">check</span>123 models evaluated and counting</li>
+                <li><span class="gs">check</span>Text, multimodal and agentic tasks</li>
+                <li><span class="gs">check</span>New frontier models ranked as they ship</li>
+              </ul>
+            </article>
+            <article class="value">
+              <div class="value__top"><span class="value__num">03</span><span class="gs value__icon">replay</span></div>
+              <h3 class="value__title">Reproducibility</h3>
+              <p class="value__text">Tasks, datasets and harnesses are versioned, so any score on Kaggle can be re-run and checked, by you or by anyone else.</p>
+              <ul class="value__list">
+                <li><span class="gs">check</span>Versioned tasks and datasets</li>
+                <li><span class="gs">check</span>Open-source Benchmarks SDK harness</li>
+                <li><span class="gs">check</span>Build and test from your own dev environment</li>
+              </ul>
+            </article>
+          </div>
+          <div class="values__stats">
+            <div><b>1,083</b><span>benchmarks hosted</span></div>
+            <div><b>123</b><span>models evaluated</span></div>
+            <div><b>10,000+</b><span>community-built tasks</span></div>
+          </div>
+        </section>
+
+        <!-- Customer stories -->
+        <section class="section">
+          <div class="section__head">
+            <div>
+              <h2 class="h2">Built on Kaggle</h2>
+              <p class="body2 muted">Researchers and companies who built and launched benchmarks with Kaggle.</p>
+            </div>
+          </div>
+          <div class="stories" id="stories"></div>
+        </section>
+
+        <!-- How it works -->
+        <section class="section">
+          <h2 class="h2">How it works</h2>
+          <ol class="steps">
+            <li class="step">
+              <span class="step__n">1</span>
+              <h3 class="step__title">Define your tasks</h3>
+              <p class="step__text">Write tasks and scoring in Python with the Benchmarks SDK, locally or with your AI coding agent.</p>
+            </li>
+            <li class="step">
+              <span class="step__n">2</span>
+              <h3 class="step__title">Run across models</h3>
+              <p class="step__text">Kaggle runs your benchmark against frontier models and logs every output, score and cost.</p>
+            </li>
+            <li class="step">
+              <span class="step__n">3</span>
+              <h3 class="step__title">Launch your leaderboard</h3>
+              <p class="step__text">Publish a public leaderboard that updates as new models launch, with your methodology alongside it.</p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta" aria-labelledby="bring-your-own">
+          <h3 id="bring-your-own" class="cta__title">Bring a benchmark. Bring a model. Bring both.</h3>
+          <p class="cta__text">The harness, the scores, and the runs are open. Add yours to the loop.</p>
+          <div class="cta__actions"><a class="btn btn--primary" href="#start"><span class="gs">add</span><span>Start building</span></a><button class="btn btn--outlined">Partner with us</button></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="chrome.js"></script>
+  <script src="stories.js"></script>
+  <script>renderStoryTiles(document.getElementById("stories"), { cta: true });</script>
+</body>
+</html>

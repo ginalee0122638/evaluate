@@ -14,82 +14,9 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <!-- ================= Side navigation ================= -->
-    <nav class="sidenav" aria-label="Main Kaggle page navigation" id="sidenav">
-      <div class="sidenav__brand">
-        <button class="icon-btn" aria-label="Navigation menu" title="Navigation menu" data-toggle-nav><span class="gs">menu</span></button>
-        <a href="#site-content" class="skip-link">Skip to<br>content</a>
-        <a href="#" class="logo" aria-label="Return to Kaggle home page"><span class="logo__word">kaggle</span></a>
-      </div>
-
-      <div class="sidenav__create">
-        <button class="create-btn">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-            <path d="M20 30L20 16L16 20L16 30L20 30Z" fill="#20BEFF"/>
-            <path d="M20 20L30 20L30 16L20 16L20 20Z" fill="#20BEFF"/>
-            <path d="M16 20L20 16L15.937 16L6 16L6 20L16 20Z" fill="#20BEFF"/>
-            <rect x="16" y="6" width="4" height="10" fill="#20BEFF"/>
-          </svg>
-          <span>Create</span>
-        </button>
-      </div>
-
-      <div class="sidenav__search search search--mobile">
-        <span class="gs">search</span><input type="text" placeholder="Search">
-      </div>
-
-      <ul class="navlist" role="list">
-        <li><a class="navitem" href="#"><span class="gs">explore</span><span class="navitem__label">Home</span></a></li>
-        <li><a class="navitem" href="#"><span class="gs">emoji_events</span><span class="navitem__label">Competitions</span></a></li>
-        <li class="navgroup">
-          <a class="navitem is-active" aria-current="page" href="#"><span class="gs gs--fill">leaderboard</span><span class="navitem__label">Benchmarks <span>🪿🥣</span></span></a>
-          <ul class="navlist navlist--sub" role="list">
-            <li><a class="navitem navitem--dense" href="#"><span class="navitem__label">Benchmark Index <span>🪿🥣</span></span></a></li>
-          </ul>
-        </li>
-        <li><a class="navitem" href="#"><span class="gs">smart_toy</span><span class="navitem__label">Game Arena</span></a></li>
-      </ul>
-      <ul class="navlist" role="list">
-        <li class="navitem-row">
-          <a class="navitem" href="#"><span class="gs">code</span><span class="navitem__label">Data Hub</span></a>
-          <button class="icon-btn icon-btn--sm" aria-label="Expand" title="Expand"><span class="gs">expand_more</span></button>
-        </li>
-      </ul>
-      <ul class="navlist" role="list">
-        <li class="navitem-row">
-          <a class="navitem" href="#"><span class="gs">format_list_bulleted</span><span class="navitem__label">More</span></a>
-          <button class="icon-btn icon-btn--sm" aria-label="Expand" title="Expand"><span class="gs">expand_more</span></button>
-        </li>
-      </ul>
-    </nav>
-    <div class="scrim" data-toggle-nav></div>
-
-    <!-- ================= Top bar ================= -->
-    <nav class="topbar" aria-label="Main menu, search and your account">
-      <div class="topbar__brand">
-        <button class="icon-btn" aria-label="Navigation menu" title="Navigation menu" data-toggle-nav><span class="gs">menu</span></button>
-        <a href="#" class="logo" aria-label="Return to Kaggle home page"><span class="logo__word">kaggle</span></a>
-      </div>
-      <div class="search">
-        <span class="gs">search</span><input type="text" placeholder="Search">
-      </div>
-      <div class="topbar__account">
-        <a href="#" class="btn btn--text">Sign In</a>
-        <a href="#" class="btn btn--outlined">Register</a>
-      </div>
-    </nav>
-
+  <div class="app" data-page="home">
     <!-- ================= Main ================= -->
     <div class="main" role="main" id="site-content">
-      <div class="cookie-bar" id="cookie-bar">
-        <div class="cookie-bar__text">Kaggle uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic.</div>
-        <div class="cookie-bar__actions">
-          <a href="#" class="cookie-bar__btn">Learn more</a>
-          <button class="cookie-bar__btn" data-dismiss-cookies>OK, Got it.</button>
-        </div>
-      </div>
-
       <div class="page">
         <!-- Hero -->
         <section class="hero" aria-label="Kaggle Benchmarks">
@@ -167,13 +94,14 @@
         <section class="cta" aria-labelledby="bring-your-own">
           <h3 id="bring-your-own" class="cta__title">Bring a benchmark. Bring a model. Bring both.</h3>
           <p class="cta__text">The harness, the scores, and the runs are open. Add yours to the loop.</p>
-          <div class="cta__actions"><button class="btn btn--outlined">Submit a benchmark</button></div>
+          <div class="cta__actions"><a class="btn btn--outlined" href="build.html">Submit a benchmark</a></div>
         </section>
       </div>
       <div class="visually-hidden" role="alert" aria-live="polite" aria-atomic="true">1102 Results found</div>
     </div>
   </div>
 
+  <script src="chrome.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

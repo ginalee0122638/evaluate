@@ -15,7 +15,12 @@ Open http://localhost:5173. The page reloads by itself whenever you save a file 
 
 | File | What's in it |
 | --- | --- |
-| `index.html` | Page layout and fixed text: side nav, top bar, cookie bar, hero, section headings, call-to-action |
+| `index.html` | Benchmarks home page: hero, section headings, call to action |
+| `build.html` | Build Benchmarks page: value props, customer story tiles, how it works |
+| `heygen.html` | HeyGen customer story. Copy this file to add another story, then set that story's `href` in `stories.js` |
+| `chrome.js` | Side nav, top bar and cookie bar shared by every page |
+| `stories.js` | Customer story tiles (text, stats, logos, links) |
+| `pages.css` | Styles for the Build Benchmarks and story pages |
 | `styles.css` | All styling. Design tokens (colors, fonts, radii, sidebar width) are at the top in `:root` |
 | `data.js` | Everything data-driven: hero counts, coding leaderboard scores, speed and cost, benchmark cards, new models, score-progression points, new benchmarks |
 | `app.js` | Rendering and interactions: tabs, number counters, upvotes, card expanding, chart highlighting |

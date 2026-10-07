@@ -8,12 +8,6 @@
     return o && o.logo ? `<img src="${o.logo}" alt="" class="${cls}">` : `<span class="${cls} logo-img--blank"></span>`;
   };
 
-  /* ---------------- Chrome: nav drawer + cookie bar ---------------- */
-  document.querySelectorAll("[data-toggle-nav]").forEach((el) =>
-    el.addEventListener("click", () => document.body.classList.toggle("nav-open")));
-  const cookieBtn = document.querySelector("[data-dismiss-cookies]");
-  cookieBtn && cookieBtn.addEventListener("click", () => $("#cookie-bar").remove());
-
   /* ---------------- Hero: odometer stats ---------------- */
   function odometer(n) {
     const str = n.toLocaleString("en-US");

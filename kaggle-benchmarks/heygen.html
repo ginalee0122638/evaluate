@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#008ABC">
+  <title>HeyGen Customer Story | Kaggle</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="app" data-page="story">
+    <div class="main" role="main" id="site-content">
+
+      <!-- Story hero -->
+      <header class="story-hero">
+        <div class="story-hero__inner">
+          <a class="story-back" href="build.html"><span class="gs">arrow_back</span>Customer stories</a>
+          <div class="story-hero__grid">
+            <div>
+              <div class="story-hero__brand">
+                <img src="https://storage.googleapis.com/kaggle-organizations/5461/thumbnail.png?t=2026-09-15-16-28-21" alt="">
+                <span>HeyGen</span>
+              </div>
+              <h1 class="story-hero__title">How HeyGen built a benchmark for the thing models can’t fake: motion design</h1>
+              <p class="story-hero__lede">HeyGen Research created Code2Video to measure how well AI agents turn a creative brief into motion graphics code, and launched it with Kaggle so the leaderboard keeps up with every new frontier model.</p>
+            </div>
+            <aside class="facts" aria-label="At a glance">
+              <dl>
+                <div><dt>Company</dt><dd>HeyGen</dd></div>
+                <div><dt>Industry</dt><dd>AI video</dd></div>
+                <div><dt>Benchmark</dt><dd><a class="link" href="index.html">Code2Video Bench</a></dd></div>
+                <div><dt>Launched</dt><dd>September 18, 2026, with Kaggle</dd></div>
+                <div><dt>With Kaggle</dt><dd>Public leaderboard, ongoing evaluation of new models</dd></div>
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </header>
+
+      <div class="page">
+        <!-- Stats band -->
+        <section class="story-stats" aria-label="Key numbers">
+          <div><b>168</b><span>human-written briefs, each with a human-made reference video</span></div>
+          <div><b>5</b><span>judging dimensions, from engagement to craft</span></div>
+          <div><b>82%</b><span>agreement between HeyGen’s judge and human preference, vs. 75% for general VLMs</span></div>
+          <div><b>1,464</b><span>samples used to validate the judge</span></div>
+        </section>
+
+        <div class="story-body">
+          <nav class="story-toc" aria-label="On this page">
+            <div class="story-toc__label">On this page</div>
+            <a href="#challenge">The challenge</a>
+            <a href="#benchmark">Building Code2Video</a>
+            <a href="#judge">A judge trained on people</a>
+            <a href="#kaggle">Launching with Kaggle</a>
+            <a href="#results">Results</a>
+          </nav>
+
+          <article class="story-article">
+            <section id="challenge">
+              <h2>The challenge</h2>
+              <p>More and more video is made by AI agents that write code: they lay out scenes, set type, choose colors and animate transitions in code, then render the result. HeyGen needed a way to tell which models actually do this well.</p>
+              <p>Most code benchmarks check whether a program runs or whether its output matches a target. Motion design is different. A video can render perfectly and still look wrong: off-brand type, cluttered layout, or pacing that drags. What matters is <em>temporal aesthetics</em>: what changes over time, and whether the motion feels intentional.</p>
+            </section>
+
+            <section id="benchmark">
+              <h2>Building Code2Video</h2>
+              <p>Code2Video is a benchmark for code-driven motion design. Given a brief, an agent must produce a rendered motion-graphics sequence that follows the requested visual direction: composition, typography, colors, timing, animation, transitions and motion behavior.</p>
+              <p>The benchmark has <strong>168 human-written briefs</strong>. Each one is a beat of a real product-launch video:</p>
+              <ul class="chips">
+                <li>Hook</li><li>Problem statement</li><li>Product intro</li><li>Key features</li><li>Benefits</li><li>Social proof</li><li>Call to action</li><li>Brand outro</li>
+              </ul>
+              <p>Every brief has a human-made reference, so the question isn’t just “is this good?” but “is this as good as what a skilled designer made?”</p>
+            </section>
+
+            <section id="judge">
+              <h2>A judge trained on people</h2>
+              <p>Scoring video at scale needs an automated judge, and off-the-shelf vision-language models weren’t reliable enough. HeyGen built its own evaluation model, a dedicated architecture rather than a fine-tuned LLM or VLM, trained on human preference data to predict which of two videos a person would prefer.</p>
+              <p>The judge compares two videos made from the same brief across five dimensions:</p>
+              <div class="dims">
+                <div class="dim"><span class="gs">bolt</span><b>Engagement</b></div>
+                <div class="dim"><span class="gs">target</span><b>Prompt intent</b></div>
+                <div class="dim"><span class="gs">dashboard</span><b>Composition</b></div>
+                <div class="dim"><span class="gs">timeline</span><b>Temporal quality</b></div>
+                <div class="dim"><span class="gs">brush</span><b>Craft</b></div>
+              </div>
+              <figure class="compare" aria-label="Judge agreement with human preference">
+                <figcaption>Agreement with human preference, across 1,464 evaluation samples</figcaption>
+                <div class="compare__row"><span>HeyGen judge</span><div class="compare__track"><div class="compare__fill is-hero" style="width:82%"></div></div><b>82%</b></div>
+                <div class="compare__row"><span>General-purpose VLMs</span><div class="compare__track"><div class="compare__fill" style="width:75%"></div></div><b>75%</b></div>
+              </figure>
+            </section>
+
+            <section id="kaggle">
+              <h2>Launching with Kaggle</h2>
+              <p>A benchmark only stays useful if it keeps up with new models. HeyGen launched Code2Video on Kaggle on September 18, 2026, and Kaggle maintains the leaderboard, adding new models as they launch.</p>
+              <div class="pillars">
+                <div class="pillar"><span class="gs">visibility</span><b>Transparent</b><p>Methodology, briefs and scores are public on the leaderboard.</p></div>
+                <div class="pillar"><span class="gs">hub</span><b>Comprehensive</b><p>New frontier models are ranked as they ship, with no extra work for HeyGen.</p></div>
+                <div class="pillar"><span class="gs">replay</span><b>Reproducible</b><p>Versioned tasks mean any result can be re-run and checked.</p></div>
+              </div>
+            </section>
+
+            <section id="results">
+              <h2>Results</h2>
+              <p>Here are the top models on the Code2Video leaderboard, with scores from the pairwise judge:</p>
+              <div class="lb" id="heygen-lb"></div>
+              <p class="muted small">Snapshot from the Kaggle Benchmarks page. See the full leaderboard for all models.</p>
+              <a class="btn btn--outlined" href="index.html">View Code2Video leaderboard<span class="gs">arrow_forward</span></a>
+            </section>
+          </article>
+        </div>
+
+        <section class="section">
+          <div class="section__head">
+            <div><h2 class="h2">More stories</h2><p class="body2 muted">Other teams who built benchmarks on Kaggle.</p></div>
+            <div class="section__actions"><a class="btn btn--text-link" href="build.html">All stories<span class="gs">arrow_forward</span></a></div>
+          </div>
+          <div class="stories stories--row" id="more-stories"></div>
+        </section>
+
+        <section class="cta" aria-labelledby="cta-title">
+          <h3 id="cta-title" class="cta__title">Have an evaluation the field should see?</h3>
+          <p class="cta__text">Build it on Kaggle and let every new model take your test.</p>
+          <div class="cta__actions"><a class="btn btn--primary" href="build.html#start"><span class="gs">add</span><span>Start building</span></a></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="chrome.js"></script>
+  <script src="data.js"></script>
+  <script src="stories.js"></script>
+  <script>
+    (function () {
+      const D = window.PAGE_DATA;
+      const b = D.newBenchmarks.find((x) => x.title === "Code2Video Bench");
+      const max = b.rows[0][2];
+      document.getElementById("heygen-lb").innerHTML = b.rows.map(([name, org, v], i) => {
+        const o = D.orgs[org];
+        return `<div class="lb__row${i === 0 ? " is-leader" : ""}">
+          <span class="lb__rank">#${i + 1}</span>
+          <img class="logo-img logo-img--20" src="${o.logo}" alt="">
+          <span class="lb__name">${name}</span>
+          <div class="lb__track"><div class="lb__fill" style="width:${(v / max) * 100}%;background:${o.color}"></div></div>
+          <span class="lb__score">${b.format(v)}</span>
+        </div>`;
+      }).join("");
+      renderStoryTiles(document.getElementById("more-stories"), { exclude: "heygen", compact: true });
+    })();
+  </script>
+</body>
+</html>
