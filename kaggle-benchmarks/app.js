@@ -61,13 +61,13 @@
   function renderDomain() {
     const L = D.domainLeaderboards[activeDomain];
     if (!L) {
-      $("#domain-panel").innerHTML = `<div class="empty">No ${activeDomain.toLowerCase()} leaderboard data yet. Add it to <code>domainLeaderboards</code> in <code>data.js</code>.</div>`;
+      $("#domain-panel").innerHTML = `<div class="empty"><span class="gs">calculate</span><p>No ${activeDomain.toLowerCase()} benchmarks on Kaggle yet.</p><p class="muted">Add one to <code>benchmarkCatalog</code> in <code>data.js</code> with <code>domain: "${activeDomain}"</code>.</p></div>`;
       return;
     }
     const ticks = [0, 25, 50, 75, 100];
     // Elo / index metrics are drawn relative to the best model on that benchmark
     const best = L.benchmarks.map((b, i) => Math.max(...L.models.map((m) => m.scores[i] ?? -Infinity)));
-    const fmt = (b, v) => (b.unit ? String(Math.round(v)) : v.toFixed(1));
+    const fmt = (b, v) => (b.format ? b.format(v) : b.unit ? String(Math.round(v)) : v.toFixed(1));
     const height = (b, i, v) => (b.unit ? (Math.max(v, 0) / best[i]) * 100 : v);
     const modelHref = (name) => `model.html?m=${slug(name)}`;
     const cols = `repeat(${L.models.length}, minmax(0, 1fr))`;
@@ -77,7 +77,7 @@
           const b = L.benchmarks[i];
           return v == null
             ? `<div role="listitem" class="col col--na" title="${esc(m.name)} · ${esc(b.name)}: no published score"><div class="col__value">–</div><div class="col__bar col__bar--na"></div></div>`
-            : `<div role="listitem" class="col" title="${esc(m.name)} · ${esc(b.name)}: ${fmt(b, v)}${b.unit === "elo" ? " Elo" : b.unit ? "" : "%"}">
+            : `<div role="listitem" class="col" title="${esc(m.name)} · ${esc(b.name)}: ${fmt(b, v)}${b.unit === "elo" ? " Elo" : b.unit || b.format ? "" : "%"}">
             <div class="col__value">${fmt(b, v)}</div>
             <div class="col__bar" style="height:${height(b, i, v)}%;background:${b.color}"></div>
           </div>`;
@@ -97,9 +97,9 @@
           <h5 class="h5">${L.title}</h5>
           <p class="body2 muted">${L.subtitle}</p>
         </div>
-        <a class="btn btn--text-link" href="https://artificialanalysis.ai/evaluations" target="_blank" rel="noopener">View all<span class="gs">arrow_forward</span></a>
+        <a class="btn btn--text-link" href="#explore">View all<span class="gs">arrow_forward</span></a>
       </div>
-      <div class="legend legend--static">${L.benchmarks.map((b) => `<span class="legend__item"><span class="swatch" style="background:${b.color}"></span>${esc(b.name)}${b.unit === "elo" ? " (Elo)" : b.unit === "index" ? " (index)" : ""}${b.note ? ` · ${esc(b.note)}` : ""}</span>`).join("")}</div>
+      <div class="legend legend--static">${L.benchmarks.map((b) => `<span class="legend__item"><span class="swatch" style="background:${b.color}"></span>${esc(b.name)}${b.unit === "elo" ? " (Elo)" : b.unit === "index" ? " (index)" : b.unit === "usd" ? " (final funds)" : ""}${b.note ? ` · ${esc(b.note)}` : ""}</span>`).join("")}</div>
       <div class="score-chart" aria-label="Scores by model and benchmark" style="--cols:${cols};--n:${L.models.length}">
         <div role="figure" class="score-chart__figure">
           <div></div>
@@ -114,7 +114,7 @@
         </div>
       </div>
       ${hasMetrics ? `<div class="metrics">${columnChart(L.speed)}${columnChart(L.cost)}</div>` : ""}
-      <p class="body2 muted footnote">Scores from <a class="link" href="https://artificialanalysis.ai/evaluations" target="_blank" rel="noopener">Artificial Analysis</a>, each evaluation's primary metric. “–” means Artificial Analysis hasn't published a score for that model. Elo and index metrics are drawn relative to the best model.${L.footnote ? " " + esc(L.footnote) : ""}</p>`;
+      <p class="body2 muted footnote">Each benchmark's primary metric, from its Kaggle leaderboard. “–” means the model hasn't been evaluated on that benchmark. Non-percentage metrics (such as YC-Bench final funds) are drawn relative to the best model.${L.footnote ? " " + esc(L.footnote) : ""}</p>`;
   }
   renderTabs();
   renderDomain();
@@ -186,88 +186,49 @@
     });
   }
 
-  /* ---------------- New models ---------------- */
-  $("#new-models-all").href = D.newModelsHref;
-  $("#new-models").innerHTML = D.newModels.map((m, i) => {
-    const color = D.orgs[m.org].color;
-    const entries = D.domains.map((d) => [d, m.scores[d]]);
-    const title = entries.map(([d, v]) => `${d}: ${v == null ? "–" : v + "%"}`).join("\n");
-    return `
-      <a href="https://www.kaggle.com/benchmarks/index?models=${m.id}" class="acc-card model-card${i === 0 ? " is-open" : ""}" data-family="${m.family}" title="${title}" style="--accent:${color}">
-        <div class="acc-card__top">
-          <div class="org-chip">${logo(m.org, "logo-img logo-img--20")}<span>${D.orgs[m.org].name}</span></div>
-          ${m.firstEvaluated ? `<div class="acc-card__date">First evaluated<br>${m.firstEvaluated}</div>` : ""}
-        </div>
-        <div class="acc-card__name">${esc(m.name)}</div>
-        <div class="spark" aria-hidden="true">${entries.map(([, v]) => `<div class="spark__bar" style="height:${v == null ? 0 : v}%"></div>`).join("")}</div>
-        <div role="list" aria-label="Score by domain" class="domains">
-          ${entries.map(([d, v]) => `
-            <div role="listitem" class="domain">
-              <div aria-hidden="true" class="domain__track">${v == null ? "" : `<div class="domain__fill" style="height:${v}%"></div>`}</div>
-              <div class="domain__value">${v == null ? "–" : v + "%"}</div>
-              <div title="${d}" class="domain__label">${d}</div>
-            </div>`).join("")}
-        </div>
-      </a>`;
-  }).join("");
-
-  /* ---------------- Score progression chart ---------------- */
-  const P = D.progression;
-  $("#prog-title").textContent = P.title;
-  $("#prog-subtitle").textContent = P.subtitle;
-  let activeFamily = D.newModels[0].family;
-
-  function stepPath(pts, best) {
-    let d = `M ${pts[0][3]} ${pts[0][4]}`;
-    let curY = pts[0][4];
-    for (let i = 1; i < pts.length; i++) {
-      const y = best ? Math.min(curY, pts[i][4]) : pts[i][4];
-      d += ` H ${pts[i][3]} V ${y}`;
-      curY = y;
+  /* ---------------- New Release Rankings (hero widget) ---------------- */
+  (function () {
+    const R = D.releaseRankings || [];
+    const PER = 3, pages = Math.ceil(R.length / PER), DELAY = 6000;
+    const ICON = { Coding: "code_blocks", Agentic: "smart_toy", Reasoning: "psychology", Multimodal: "imagesmode", Mathematics: "calculate", Knowledge: "menu_book" };
+    const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    let page = 0, timer = null, paused = false;
+    $("#rank-pages").innerHTML = Array.from({ length: pages }, (_, i) =>
+      `<button role="tab" class="rank__page" data-page="${i}" aria-label="Page ${i + 1}"><i></i></button>`).join("");
+    function show(p, animate = true) {
+      page = (p + pages) % pages;
+      const list = $("#rank-list");
+      list.classList.remove("is-in");
+      const render = () => {
+        list.innerHTML = R.slice(page * PER, page * PER + PER).map((r) => `
+          <li class="rank__row">
+            <a class="rank__link" href="model.html?m=${slug(r.name)}" aria-label="${esc(r.name)} is number ${r.rank} in ${esc(r.benchmark)}"></a>
+            ${logo(r.org, "rank__logo")}
+            <div class="rank__body">
+              <div class="rank__name">${esc(r.name)}</div>
+              <div class="rank__meta">is <b>#${r.rank}</b> in <span class="gs">${ICON[r.domain] || "leaderboard"}</span><a class="rank__bench" href="${r.href}">${esc(r.benchmark)}</a>${r.effort ? ` <span class="rank__effort">· ${esc(r.effort)}</span>` : ""}</div>
+            </div>
+            <span class="gs rank__chev">chevron_right</span>
+          </li>`).join("");
+        requestAnimationFrame(() => list.classList.add("is-in"));
+      };
+      animate ? setTimeout(render, 160) : render();
+      document.querySelectorAll(".rank__page").forEach((b, i) => {
+        b.classList.toggle("is-on", i === page);
+        b.setAttribute("aria-selected", i === page);
+        const bar = b.querySelector("i");
+        bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = "";
+      });
+      clearTimeout(timer);
+      if (!paused) timer = setTimeout(() => show(page + 1), DELAY);
     }
-    return d + ` H ${P.endX}`;
-  }
-
-  function renderProgression() {
-    const svg = $("#progression");
-    const grid = P.yTicks.map(([v, y]) =>
-      `<g><line class="grid" x1="40" x2="936" y1="${y}" y2="${y}"></line><text x="32" y="${y + 4}" text-anchor="end">${v}</text></g>`).join("");
-    const xs = P.xTicks.map(([l, x]) => `<text x="${x}" y="292" text-anchor="middle">${l}</text>`).join("");
-    // Inactive series first so the active one paints on top.
-    const ordered = [...P.series].sort((a, b) => (a.family === activeFamily) - (b.family === activeFamily));
-    const series = ordered.map((s) => {
-      const active = s.family === activeFamily;
-      const d = stepPath(s.points, !active);
-      const label = `${s.family}: ${s.points.map((p) => `${p[0]} ${p[1].toFixed(1)}`).join(", ")}`;
-      const last = s.points[s.points.length - 1];
-      return `
-        <g class="series${active ? " is-active" : ""}" tabindex="0" role="button" aria-label="${esc(label)}" data-family="${s.family}">
-          <path d="${d}" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke"></path>
-          <path d="${d}" fill="none" stroke="${s.color}" stroke-width="${active ? 2.5 : 1.5}" opacity="${active ? 1 : 0.85}" pointer-events="none"></path>
-          ${active ? `<circle cx="${P.endX}" cy="${last[4]}" r="10" fill="${s.color}" opacity="0.25"></circle>` : ""}
-          ${s.points.map((p) => `<g><circle cx="${p[3]}" cy="${p[4]}" r="${active ? 4 : 3}" fill="${s.color}"><title>${esc(p[0])} · ${p[1].toFixed(1)} · first evaluated ${p[2]}</title></circle></g>`).join("")}
-        </g>`;
-    }).join("");
-    svg.innerHTML = grid + xs + series;
-
-    const legendOrder = [activeFamily, ...P.series.map((s) => s.family).filter((f) => f !== activeFamily)];
-    $("#prog-legend").innerHTML = legendOrder.map((f) => {
-      const s = P.series.find((x) => x.family === f);
-      return `<button type="button" class="legend__btn${f === activeFamily ? " is-active" : ""}" data-family="${f}"><span class="swatch swatch--line" style="background:${s.color}"></span>${f}${f === activeFamily ? "" : " (best so far)"}</button>`;
-    }).join("");
-  }
-  function setFamily(f) {
-    if (!f || f === activeFamily) return;
-    activeFamily = f;
-    renderProgression();
-  }
-  $("#prog-legend").addEventListener("click", (e) => setFamily(e.target.closest("[data-family]")?.dataset.family));
-  $("#progression").addEventListener("click", (e) => setFamily(e.target.closest(".series")?.dataset.family));
-  $("#progression").addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFamily(e.target.closest(".series")?.dataset.family); }
-  });
-  renderProgression();
-  accordion($("#new-models"), (card) => setFamily(card.dataset.family));
+    $("#rank-pages").addEventListener("click", (e) => { const b = e.target.closest("[data-page]"); if (b) show(+b.dataset.page); });
+    const box = $("#rank");
+    box.addEventListener("mouseenter", () => { paused = true; box.classList.add("is-paused"); clearTimeout(timer); });
+    box.addEventListener("mouseleave", () => { paused = false; box.classList.remove("is-paused"); show(page + 1); });
+    box.style.setProperty("--delay", DELAY + "ms");
+    if (R.length) show(0, false);
+  })();
 
   /* ---------------- New Benchmarks ---------------- */
   $("#new-benchmarks").innerHTML = D.newBenchmarks.map((b, i) => {

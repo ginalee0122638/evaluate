@@ -26,117 +26,8 @@ window.PAGE_DATA = {
 
   // ---------- Leaderboards by domain ----------
   domains: ["Coding", "Agentic", "Reasoning", "Multimodal", "Mathematics", "Knowledge"],
-  // Source: Artificial Analysis evaluations (artificialanalysis.ai/evaluations), read via search
-  // snapshots dated late Sep – early Oct 2026. null = no published Artificial Analysis score for
-  // that model on that benchmark (shown as "–"). Elo / index metrics are drawn scaled to the best
-  // model on that benchmark; their labels show the raw value.
-  domainLeaderboards: {
-    Coding: {
-      title: "Coding Benchmark Scores",
-      subtitle: "Frontier models on Artificial Analysis coding evaluations",
-      benchmarks: [
-        { name: "Terminal-Bench 4.0", href: "https://artificialanalysis.ai/evaluations/terminalbench-4-0", color: "#3D84F7" },
-        { name: "SciCode", href: "https://artificialanalysis.ai/evaluations/scicode", color: "#20D3C2" },
-        { name: "Coding Agent Index", href: "https://artificialanalysis.ai/agents/coding-agents", color: "#FF9447", note: "best harness for the model" },
-      ],
-      models: [
-        { name: "Claude Sonnet 5.5", org: "anthropic", scores: [63.6, 61.0, 68.4] },
-        { name: "Claude Opus 5.5", org: "anthropic", scores: [59.6, 66.9, 66.0] },
-        { name: "GPT-6 Astra", org: "openai", scores: [59.1, null, null] },
-        { name: "Gemini 4 Argon", org: "google", scores: [57.1, 61.8, 63.8] },
-        { name: "GPT-6.1 Sol", org: "openai", scores: [56.1, null, null] },
-        { name: "Claude Fable 5.1", org: "anthropic", scores: [52.0, 63.1, null] },
-        { name: "Kimi K3", org: "moonshot", scores: [null, 59.5, null] },
-        { name: "GPT-6 Sol", org: "openai", scores: [43.9, null, null] },
-      ],
-    },
-    Agentic: {
-      title: "Agentic Benchmark Scores",
-      subtitle: "Frontier models on Artificial Analysis agentic evaluations",
-      benchmarks: [
-        { name: "AutomationBench-AA", href: "https://artificialanalysis.ai/evaluations/automationbench-aa", color: "#3D84F7" },
-        { name: "GDPval-AA v2.1", href: "https://artificialanalysis.ai/evaluations/gdpval-aa", color: "#20D3C2", unit: "elo" },
-        { name: "AA-Briefcase v1.1", href: "https://artificialanalysis.ai/articles/aa-briefcase", color: "#FF9447", unit: "elo" },
-      ],
-      models: [
-        { name: "Gemini 4 Argon", org: "google", scores: [77.5, null, 1494] },
-        { name: "Claude Sonnet 5.5", org: "anthropic", scores: [71.8, 1839, 1811] },
-        { name: "Claude Opus 5.5", org: "anthropic", scores: [69.5, 1866, 1822] },
-        { name: "DeepSeek V4.1 Flash", org: "deepseek", scores: [68.9, 1600, null] },
-        { name: "GPT-6 Astra", org: "openai", scores: [68.5, null, null] },
-        { name: "Grok 4.6", org: "xai", scores: [66.7, null, null] },
-        { name: "Grok 4.7", org: "xai", scores: [65.6, null, 1657] },
-        { name: "GPT-6.1 Sol", org: "openai", scores: [64.9, null, null] },
-      ],
-    },
-    Reasoning: {
-      title: "Reasoning Benchmark Scores",
-      subtitle: "Frontier models on Artificial Analysis reasoning evaluations",
-      benchmarks: [
-        { name: "Humanity's Last Exam", href: "https://artificialanalysis.ai/evaluations/humanitys-last-exam", color: "#3D84F7" },
-        { name: "CritPt", href: "https://artificialanalysis.ai/evaluations/critpt", color: "#20D3C2" },
-        { name: "AA-LCR v1.1", href: "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning", color: "#FF9447" },
-      ],
-      models: [
-        { name: "Claude Opus 5.5", org: "anthropic", scores: [61.4, 31.7, 84.7] },
-        { name: "Claude Fable 5.1", org: "anthropic", scores: [59.1, null, 85.3] },
-        { name: "Gemini 4 Argon", org: "google", scores: [57.1, null, null] },
-        { name: "Claude Sonnet 5.5", org: "anthropic", scores: [55.0, 31.4, null] },
-        { name: "GPT-6 Astra", org: "openai", scores: [54.7, 31.7, null] },
-        { name: "GPT-5.6 Sol", org: "openai", scores: [null, 32.3, null] },
-        { name: "Kimi K3", org: "moonshot", scores: [null, null, 88.7] },
-        { name: "Step 5 Preview", org: "stepfun", scores: [null, null, 88.3] },
-      ],
-    },
-    Multimodal: {
-      title: "Multimodal Benchmark Scores",
-      subtitle: "Image understanding on Artificial Analysis MMMU-Pro",
-      benchmarks: [
-        { name: "MMMU-Pro", href: "https://artificialanalysis.ai/evaluations/mmmu-pro", color: "#3D84F7" },
-      ],
-      models: [
-        { name: "Claude Opus 5.5", org: "anthropic", scores: [88.0] },
-        { name: "GPT-6 Astra", org: "openai", scores: [87.0] },
-        { name: "Claude Opus 5", org: "anthropic", scores: [84.7] },
-        { name: "Gemini 3.5 Flash", org: "google", scores: [84.3] },
-        { name: "GPT-5.6 Sol", org: "openai", scores: [83.4] },
-      ],
-      footnote: "Claude Opus 5.5 and GPT-6 Astra are from the current MMMU-Pro page; the other rows are from Artificial Analysis's August 2026 snapshot.",
-    },
-    Mathematics: {
-      title: "Mathematics Benchmark Scores",
-      subtitle: "Competition math on Artificial Analysis AIME 2025",
-      benchmarks: [
-        { name: "AIME 2025", href: "https://artificialanalysis.ai/evaluations/aime-2025", color: "#3D84F7" },
-      ],
-      models: [
-        { name: "GPT-5.2 Pro", org: "openai", scores: [99.0] },
-        { name: "GPT-5 Codex", org: "openai", scores: [98.7] },
-        { name: "Gemini 3 Flash Preview", org: "google", scores: [97.0] },
-        { name: "gpt-oss-120B", org: "openai", scores: [93.4] },
-      ],
-      footnote: "Artificial Analysis no longer runs AIME on new models, so newer frontier models aren't listed here.",
-    },
-    Knowledge: {
-      title: "Knowledge Benchmark Scores",
-      subtitle: "Frontier models on Artificial Analysis knowledge evaluations",
-      benchmarks: [
-        { name: "AA-Omniscience Accuracy", href: "https://artificialanalysis.ai/evaluations/omniscience", color: "#3D84F7" },
-        { name: "AA-Omniscience Index", href: "https://artificialanalysis.ai/evaluations/omniscience", color: "#20D3C2", unit: "index" },
-        { name: "GPQA Diamond", href: "https://artificialanalysis.ai/evaluations/gpqa-diamond", color: "#FF9447" },
-      ],
-      models: [
-        { name: "Claude Fable 5.1", org: "anthropic", scores: [67.2, 43, null] },
-        { name: "Claude Opus 5.5", org: "anthropic", scores: [66.0, 46, null] },
-        { name: "Claude Fable 5", org: "anthropic", scores: [65.4, null, null] },
-        { name: "GPT-6 Astra", org: "openai", scores: [62.6, 44, 96.1] },
-        { name: "Gemini 3.8 Flash", org: "google", scores: [null, null, 95.3] },
-        { name: "Grok 4.6", org: "xai", scores: [null, null, 94.9] },
-        { name: "GPT-5.6 Sol", org: "openai", scores: [null, null, 94.1] },
-      ],
-      footnote: "AA-Omniscience Index runs from −100 to 100 and penalises wrong answers; its bars are scaled to the best model.",
-    },
-  },
+  // Built from benchmarkCatalog at the bottom of this file.
+  domainLeaderboards: {},
 
   // ---------- Explore benchmarks ----------
   exploreBenchmarks: [
@@ -205,66 +96,6 @@ window.PAGE_DATA = {
   ],
 
   // ---------- New models ----------
-  newModelsHref: `${BASE}/benchmarks/index?models=165,170,168,164,161`,
-  newModels: [
-    { id: 165, name: "Grok 4.6", org: "xai", family: "Grok", firstEvaluated: "09/15/2026",
-      scores: { Coding: null, Agentic: 61, Reasoning: null, Multimodal: 61, Mathematics: 97, Knowledge: null } },
-    { id: 170, name: "GPT-6 Astra", org: "openai", family: "OpenAI", firstEvaluated: null,
-      scores: { Coding: 61, Agentic: 79, Reasoning: 91, Multimodal: 87, Mathematics: 100, Knowledge: 79 } },
-    { id: 168, name: "Gemini 3.8 Flash", org: "google", family: "Google", firstEvaluated: null,
-      scores: { Coding: 60, Agentic: 68, Reasoning: 88, Multimodal: 85, Mathematics: 96, Knowledge: 72 } },
-    { id: 164, name: "Gemini 3.7 Flash", org: "google", family: "Google", firstEvaluated: null,
-      scores: { Coding: 63, Agentic: 85, Reasoning: 90, Multimodal: 86, Mathematics: 96, Knowledge: 72 } },
-    { id: 161, name: "Claude Opus 5", org: "anthropic", family: "Anthropic", firstEvaluated: null,
-      scores: { Coding: 60, Agentic: 69, Reasoning: 90, Multimodal: 69, Mathematics: 99, Knowledge: 63 } },
-  ],
-
-  // ---------- Score progression chart ----------
-  // Exact geometry from the saved page (viewBox 0 0 960 300). x = time, y = composite score.
-  progression: {
-    title: "Score progression",
-    subtitle: "Composite score (mean across domains) by when each model was first evaluated on Kaggle, versus leading frontier models",
-    endX: 887.0448752576207, // "today"
-    yTicks: [[40, 268], [50, 220.8], [60, 173.6], [70, 126.4], [80, 79.2], [90, 32]],
-    xTicks: [["Jul 25", 176.2696882817467], ["Oct 25", 324.22867239143454], ["Jan 26", 472.25466691059233],
-             ["Apr 26", 616.9301409562518], ["Jul 26", 763.2808752386603], ["Oct 26", 911.2398593483481]],
-    series: [
-      { family: "Google", color: "#3D84F7", points: [
-        ["Gemini 1.5 Pro", 45.3, "May 2025", 88.95512474237931, 242.7930952907901],
-        ["Gemini 2.0 Flash", 46.3, "May 2025", 88.95512474237931, 238.4137426491679],
-        ["Gemini 2.5 Flash Preview", 49.7, "May 2025", 113.07887215156754, 222.34030767128644],
-        ["Gemini 2.5 Pro Preview", 63.0, "Jun 2025", 135.59436973347658, 159.42572624152686],
-        ["Gemini 2.5 Pro", 73.8, "Jul 2025", 200.06079639060607, 108.56666009747602],
-        ["Gemini 3 Pro Preview", 83.1, "Nov 2025", 392.914342098151, 64.347866089394],
-      ] },
-      { family: "OpenAI", color: "#20D3C2", points: [
-        ["o4 mini", 65.3, "May 2025", 88.95512474237931, 148.8092344540764],
-        ["o3", 72.5, "May 2025", 88.95512474237931, 114.83155041432661],
-        ["GPT-5", 74.1, "Aug 2025", 254.6048569521385, 106.82794327051776],
-        ["GPT-5.5", 81.5, "May 2026", 696.2485518942901, 71.91586676901385],
-        ["GPT-6 Astra", 82.8, "Sep 2026", 877.0250140606395, 65.96013778164536],
-      ] },
-      { family: "Anthropic", color: "#FF9447", points: [
-        ["Claude 3.7 Sonnet", 49.4, "May 2025", 88.95512474237931, 223.65537505512248],
-        ["Claude Sonnet 4", 59.9, "May 2025", 113.07887215156754, 173.92757340842869],
-        ["Claude Opus 4.5", 64.1, "Sep 2025", 277.1203545340475, 154.29756931493478],
-        ["Claude Opus 4.8", 72.7, "May 2026", 710.6347911575276, 113.4516039220175],
-        ["Claude Opus 5", 75.0, "Jul 2026", 804.4239979228009, 102.70644255205563],
-      ] },
-      { family: "DeepSeek", color: "#7C6CF6", points: [
-        ["DeepSeek-V3", 58.3, "May 2025", 88.95512474237931, 181.39939459684857],
-        ["DeepSeek-R1", 62.5, "May 2025", 122.72837111524284, 161.77036028564012],
-      ] },
-      { family: "Grok", color: "#E5487F", points: [
-        ["Grok 2", 46.6, "May 2025", 88.95512474237931, 236.91505090234799],
-        ["Grok 3", 56.4, "May 2025", 117.9036216334052, 190.43457384618716],
-        ["Grok 4", 72.7, "Jul 2025", 225.65636006111262, 113.60282282385246],
-        ["Grok 4.5", 58.0, "Jul 2026", 784.9013067400299, 183.053162090207],
-        ["Grok 4.6", 72.6, "Sep 2026", 887.0448752576207, 114.02349739280952],
-      ] },
-    ],
-  },
-
   // ---------- New Benchmarks ----------
   newBenchmarks: [
     { title: "Code2Video Bench", href: `${BASE}/benchmarks/heygen/code2video/versions/1`, released: "09/21/2026",
@@ -285,3 +116,150 @@ window.PAGE_DATA = {
       format: (v) => v.toFixed(2) },
   ],
 };
+
+// ---------- Benchmark catalog ----------
+// One entry per benchmark. Feeds the Explore benchmarks tiles, the "Leaderboards by domain"
+// charts, the New Release Rankings widget and the model pages.
+// source: "published" = numbers from the benchmark's public leaderboard (or Artificial Analysis);
+//         "illustrative" = placeholder scores for this prototype; replace with real results.
+window.PAGE_DATA.benchmarkCatalog = [
+  {
+    id: "deepsearchqa", title: "DeepSearchQA", domain: "Agentic", source: "illustrative",
+    subtitle: "900 multi-step research questions that need exhaustive web search to answer completely",
+    publisher: "Google DeepMind", avatar: "assets/logos/deepmind.svg", href: `${BASE}/benchmarks/google/dsqa`,
+    metric: "Fully correct", unit: "%", more: 38, updated: ["6d ago", "6 days ago"], votes: 142,
+    results: [["Gemini 4 Argon", "google", 78.4], ["GPT-6 Astra", "openai", 74.1], ["Claude Opus 5.5", "anthropic", 71.6],
+      ["Claude Sonnet 5.5", "anthropic", 69.8], ["GPT-6.1 Sol", "openai", 67.2], ["Kimi K3", "moonshot", 63.5], ["Grok 4.7", "xai", 61.0]],
+  },
+  {
+    id: "mls-bench-lite", title: "MLS-Bench Lite", domain: "Coding", source: "illustrative",
+    subtitle: "Can agents invent better ML methods? 30 research tasks across 12 domains, 5-hour budget each",
+    publisher: "MLS-Bench", avatar: "assets/logos/mls-bench.svg", href: "https://github.com/Imbernoulli/MLS-Bench",
+    metric: "Score", unit: "%", more: 14, updated: ["12d ago", "12 days ago"], votes: 57,
+    // Kimi K3 (48.3) and Qwen3.8 Max (41.0) are published results; the rest are illustrative.
+    results: [["GPT-6 Astra", "openai", 56.2], ["Claude Opus 5.5", "anthropic", 53.0], ["Gemini 4 Argon", "google", 51.4],
+      ["Claude Fable 5", "anthropic", 49.9], ["Kimi K3", "moonshot", 48.3], ["Qwen3.8 Max", "qwen", 41.0]],
+  },
+  {
+    id: "yc-bench", title: "YC-Bench", domain: "Agentic", source: "illustrative",
+    subtitle: "Agents run a simulated AI startup for a year. Score is final funds, starting from $200K",
+    publisher: "Collinear AI", avatar: "assets/logos/collinear.svg", href: "https://collinear-ai.github.io/yc-bench/",
+    metric: "Final funds", unit: "usd", format: (v) => "$" + v.toFixed(2) + "M", more: 18, updated: ["9d ago", "9 days ago"], votes: 88,
+    // Claude Fable 5 ($1.98M) is a published result; the rest are illustrative.
+    results: [["Claude Opus 5.5", "anthropic", 2.41], ["Claude Fable 5", "anthropic", 1.98], ["Gemini 4 Argon", "google", 1.62],
+      ["GPT-6 Astra", "openai", 1.35], ["Grok 4.7", "xai", 1.12], ["Kimi K3", "moonshot", 0.94]],
+  },
+  {
+    id: "gpqa-diamond", title: "GPQA Diamond", domain: "Reasoning", source: "published",
+    subtitle: "198 graduate-level, Google-proof questions in biology, physics and chemistry",
+    publisher: "Rein et al. (NYU)", avatar: "assets/logos/gpqa.svg", href: `${BASE}/benchmarks/open-benchmarks/gpqa-diamond`,
+    metric: "Accuracy", unit: "%", more: 195, updated: ["11d ago", "11 days ago"], votes: 203,
+    // Artificial Analysis GPQA Diamond results (late Sep 2026)
+    results: [["GPT-6 Astra", "openai", 96.1], ["Gemini 3.8 Flash", "google", 95.3], ["Grok 4.6", "xai", 94.9], ["GPT-5.6 Sol", "openai", 94.1]],
+  },
+  {
+    id: "scicode", title: "SciCode", domain: "Coding", source: "published",
+    subtitle: "Research-grade scientific coding across 16 subfields of physics, math, chemistry and biology",
+    publisher: "SciCode (Princeton et al.)", avatar: "assets/logos/scicode.svg", href: `${BASE}/benchmarks/open-benchmarks/scicode/versions/1`,
+    metric: "Subproblems solved", unit: "%", more: 105, updated: ["5d ago", "5 days ago"], votes: 96,
+    // Artificial Analysis SciCode results (early Oct 2026)
+    results: [["Claude Opus 5.5", "anthropic", 66.9], ["Claude Fable 5.1", "anthropic", 63.1], ["Gemini 4 Argon", "google", 61.8],
+      ["Claude Fable 5", "anthropic", 61.0], ["Claude Sonnet 5.5", "anthropic", 61.0], ["Kimi K3", "moonshot", 59.5]],
+  },
+  {
+    id: "facts-search", title: "FACTS Search", domain: "Knowledge", source: "illustrative",
+    subtitle: "Search off factuality and grounding: can a model use search to find and state facts correctly?",
+    publisher: "Google DeepMind", avatar: "assets/logos/deepmind.svg", href: `${BASE}/benchmarks/google/facts`,
+    metric: "Accuracy", unit: "%", more: 31, updated: ["4d ago", "4 days ago"], votes: 118,
+    results: [["Gemini 4 Argon", "google", 84.7], ["GPT-6 Astra", "openai", 81.2], ["Claude Opus 5.5", "anthropic", 79.5],
+      ["Claude Sonnet 5.5", "anthropic", 77.0], ["Grok 4.7", "xai", 74.3], ["GPT-6.1 Sol", "openai", 73.8]],
+  },
+  {
+    id: "extractbench", title: "ExtractBench", domain: "Multimodal", source: "published",
+    subtitle: "A Benchmark for Schema-Guided Enterprise Document Extraction",
+    publisher: "LlamaIndex", avatar: "https://storage.googleapis.com/kaggle-organizations/5318/thumbnail.png?t=2026-04-17-23-01-04",
+    href: `${BASE}/benchmarks/llamaindex-org/extractbench-leaderboard`,
+    metric: "Accuracy", unit: "%", more: 12, updated: ["19d ago", "19 days ago"], votes: 43,
+    results: [["GPT-5.6 Sol", "openai", 91.0], ["GPT-5.6 Terra", "openai", 90.0], ["GPT-5.5", "openai", 89.1],
+      ["Gemini 3 Flash Preview", "google", 89.0], ["GPT-5.6 Luna", "openai", 89.0], ["Claude Opus 5", "anthropic", 88.8]],
+  },
+  {
+    id: "parsebench", title: "ParseBench", domain: "Multimodal", source: "illustrative",
+    subtitle: "~2,000 human-verified enterprise pages: tables, charts, faithfulness, formatting and grounding",
+    publisher: "LlamaIndex", avatar: "https://storage.googleapis.com/kaggle-organizations/5318/thumbnail.png?t=2026-04-17-23-01-04",
+    href: `${BASE}/datasets/llamaindex-org/parsebench`,
+    metric: "Overall", unit: "%", more: 11, updated: ["8d ago", "8 days ago"], votes: 64,
+    results: [["Gemini 4 Argon", "google", 81.3], ["GPT-6 Astra", "openai", 78.9], ["Claude Opus 5.5", "anthropic", 77.2],
+      ["Gemini 3.8 Flash", "google", 75.0], ["Claude Sonnet 5.5", "anthropic", 74.1], ["Qwen3.8 Max", "qwen", 70.4]],
+  },
+  {
+    id: "1h-video-qa", title: "1H Video QA", domain: "Multimodal", source: "illustrative",
+    subtitle: "Five-way questions over 40–90 minute videos testing long-context temporal reasoning",
+    publisher: "Google DeepMind", avatar: "assets/logos/deepmind.svg", href: `${BASE}/benchmarks/deepmind/video-qa`,
+    metric: "Top-1 accuracy", unit: "%", more: 17, updated: ["3d ago", "3 days ago"], votes: 75,
+    results: [["Gemini 4 Argon", "google", 88.1], ["Gemini 3.8 Flash", "google", 82.2], ["GPT-6 Astra", "openai", 79.2],
+      ["Claude Opus 5.5", "anthropic", 71.3], ["GPT-6.1 Sol", "openai", 70.5], ["Qwen3.8 Max", "qwen", 66.0]],
+  },
+];
+
+// Recently released models shown in the New Release Rankings widget (with the reasoning level they ran at).
+window.PAGE_DATA.newReleases = [
+  ["Gemini 4 Argon", "google", "High"], ["Claude Sonnet 5.5", "anthropic", "Max"], ["Claude Opus 5.5", "anthropic", "Max"],
+  ["Grok 4.7", "xai", ""], ["GPT-6.1 Sol", "openai", "Max"], ["GPT-6 Astra", "openai", "Max"],
+  ["Gemini 3.8 Flash", "google", "High"], ["Claude Fable 5.1", "anthropic", "Max"], ["Kimi K3", "moonshot", ""],
+];
+
+// ---------- Derived data (built from the catalog) ----------
+(function () {
+  const D = window.PAGE_DATA;
+  const pct = (v) => (v >= 99.95 ? "100" : v.toFixed(1).replace(/\.0$/, "")) + "%";
+  D.benchmarkCatalog.forEach((b) => { if (!b.format) b.format = (v) => pct(v); });
+
+  // Explore tiles
+  D.benchmarkCatalog.forEach((b) => {
+    const top = b.results.slice(0, 3);
+    D.exploreBenchmarks.push({
+      title: b.title, subtitle: b.subtitle, href: b.href, owner: b.publisher, avatar: b.avatar,
+      top: top.map(([model, org, v], i) => ({ rank: i + 1, model, org, score: b.format(v), raw: v, leader: i === 0 || v === top[0][2] })),
+      more: b.more, updated: { short: b.updated[0], long: b.updated[1] }, votes: b.votes,
+    });
+  });
+
+  // Domain leaderboards: each domain's benchmarks × its most-covered models (up to 8)
+  const COLORS = ["#3D84F7", "#20D3C2", "#FF9447"];
+  D.domains.forEach((domain) => {
+    const benches = D.benchmarkCatalog.filter((b) => b.domain === domain);
+    if (!benches.length) return;
+    const models = new Map();
+    benches.forEach((b, bi) => b.results.forEach(([name, org, v], ri) => {
+      if (!models.has(name)) models.set(name, { name, org, scores: benches.map(() => null), hits: 0, rankSum: 0 });
+      const m = models.get(name); m.scores[bi] = v; m.hits++; m.rankSum += ri;
+    }));
+    const list = [...models.values()].sort((a, b) => b.hits - a.hits || a.rankSum / a.hits - b.rankSum / b.hits).slice(0, 8);
+    D.domainLeaderboards[domain] = {
+      title: `${domain} Benchmark Scores`,
+      subtitle: `Top models across ${benches.length} ${domain.toLowerCase()} benchmark${benches.length > 1 ? "s" : ""} on Kaggle`,
+      benchmarks: benches.map((b, i) => ({ name: b.title, href: b.href, color: COLORS[i % COLORS.length], unit: b.unit === "%" ? undefined : b.unit, format: b.unit === "%" ? undefined : b.format })),
+      models: list.map(({ name, org, scores }) => ({ name, org, scores })),
+      footnote: benches.some((b) => b.source === "illustrative") ? "Some scores are illustrative placeholders for this prototype." : "",
+    };
+  });
+
+  // New Release Rankings: each new model's best rank on any benchmark on this page
+  const boards = [
+    ...D.benchmarkCatalog.map((b) => ({ title: b.title, href: b.href, domain: b.domain, rows: b.results.map((r) => [r[0], r[2]]) })),
+    ...D.exploreBenchmarks.filter((b) => !D.benchmarkCatalog.some((c) => c.title === b.title))
+      .map((b) => ({ title: b.title, href: b.href, domain: b.title === "AutomationBench" || b.title === "Harvey’s Legal Agent Benchmark" ? "Agentic" : b.title === "Terminal-Bench 4.0" ? "Coding" : "Multimodal", rows: b.top.map((t) => [t.model, t.raw]) })),
+  ];
+  D.releaseRankings = D.newReleases.map(([name, org, effort]) => {
+    let best = null;
+    boards.forEach((bd) => {
+      const sorted = [...bd.rows].sort((a, b) => b[1] - a[1]);
+      const i = sorted.findIndex((r) => r[0] === name);
+      if (i < 0) return;
+      const rank = sorted.findIndex((r) => r[1] === sorted[i][1]) + 1;
+      if (!best || rank < best.rank) best = { rank, benchmark: bd.title, href: bd.href, domain: bd.domain };
+    });
+    return best && { name, org, effort, ...best };
+  }).filter(Boolean);
+})();

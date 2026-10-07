@@ -105,6 +105,8 @@ window.AB = {
   url          = {https://www.kaggle.com/benchmarks/zapier/automationbench}
 }`,
 
+  citationApa: "Shepard, D., & Salimans, R. (2026). AutomationBench (Version 1) [Benchmark]. Kaggle Benchmarks. arXiv:2604.18934. https://www.kaggle.com/benchmarks/zapier/automationbench",
+
   // Task IDs and descriptions come from the public set (zapier/AutomationBench, domains/*/tasks.py).
   // Avg. score and top models per task are illustrative.
   taskCount: 600,

@@ -18,7 +18,8 @@
     <!-- ================= Main ================= -->
     <div class="main" role="main" id="site-content">
       <div class="page">
-        <!-- Hero -->
+        <!-- Hero + New Release Rankings -->
+        <div class="hero-zone">
         <section class="hero" aria-label="Kaggle Benchmarks">
           <div class="hero__eyebrow">Kaggle · Benchmarks</div>
           <h1 class="hero__title">The Trusted Home for AI Benchmarks.</h1>
@@ -29,6 +30,14 @@
             <div class="hero__stats" id="hero-stats"></div>
           </div>
         </section>
+        <aside class="rank" aria-labelledby="rank-title" id="rank">
+          <div class="rank__head">
+            <h2 class="rank__title" id="rank-title">New release rankings</h2>
+            <div class="rank__pages" role="tablist" aria-label="Pages" id="rank-pages"></div>
+          </div>
+          <ol class="rank__list" id="rank-list" aria-live="polite"></ol>
+        </aside>
+        </div>
 
         <!-- Leaderboards by domain -->
         <section class="section">
@@ -38,7 +47,7 @@
         </section>
 
         <!-- Explore benchmarks -->
-        <section class="section">
+        <section class="section" id="explore">
           <div class="section__head">
             <div>
               <h2 class="h2">Explore benchmarks</h2>
@@ -50,30 +59,6 @@
             </div>
           </div>
           <div class="bench-grid" role="list" id="explore-grid"></div>
-        </section>
-
-        <!-- New models -->
-        <section class="section">
-          <div class="section__head">
-            <div>
-              <h2 class="h2">New models</h2>
-              <p class="body2 muted">See how models stack up on benchmarks.</p>
-            </div>
-            <div class="section__actions">
-              <a class="btn btn--text-link" id="new-models-all" href="#">View all<span class="gs">arrow_forward</span></a>
-            </div>
-          </div>
-          <div class="accordion-row" id="new-models"></div>
-        </section>
-
-        <!-- Score progression -->
-        <section class="section">
-          <div class="panel panel--chart">
-            <h5 class="h5" id="prog-title"></h5>
-            <p class="body2 muted" id="prog-subtitle"></p>
-            <svg viewBox="0 0 960 300" role="img" aria-label="Composite score over time by model family" class="progression" id="progression"></svg>
-            <div class="legend" id="prog-legend"></div>
-          </div>
         </section>
 
         <!-- New Benchmarks -->

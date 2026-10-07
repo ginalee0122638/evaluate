@@ -70,7 +70,8 @@
   });
   $("#ab-links").innerHTML = M.links.map((l) =>
     `<a href="${l.href}" target="_blank" rel="noopener"><span class="gs">${l.icon}</span>${l.label}</a>`).join("") +
-    `<a href="#methodology" id="go-method"><span class="gs">menu_book</span>Methodology</a>`;
+    `<a href="#methodology" id="go-method"><span class="gs">menu_book</span>Methodology</a>` +
+    `<a href="#" id="go-cite" aria-haspopup="dialog"><span class="gs">format_quote</span>Citation</a>`;
   $("#go-method").addEventListener("click", (e) => {
     e.preventDefault();
     const tab = document.querySelector('.ab-tab[data-tab="leaderboard"]');
@@ -247,12 +248,55 @@
 
   /* ---------------- Methodology + citation ---------------- */
   $("#method").innerHTML = AB.methodology.map(([h, ps]) => `<h3 class="method__h">${h}</h3>${ps.map((p) => `<p>${p}</p>`).join("")}`).join("");
-  $("#cite").textContent = AB.citation;
+  // Citation drawer
+  let citeFmt = "bibtex";
+  const citeText = () => (citeFmt === "bibtex" ? AB.citation : AB.citationApa);
+  const drawer = $("#cite-drawer"), scrim = $("#cite-scrim");
+  let lastFocus = null;
+  function openCite(e) {
+    e && e.preventDefault();
+    lastFocus = document.activeElement;
+    $("#cite").textContent = citeText();
+    scrim.hidden = false;
+    requestAnimationFrame(() => { drawer.classList.add("is-open"); scrim.classList.add("is-open"); });
+    drawer.setAttribute("aria-hidden", "false");
+    $("#cite-close").focus();
+  }
+  function closeCite() {
+    drawer.classList.remove("is-open"); scrim.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    setTimeout(() => (scrim.hidden = true), 250);
+    lastFocus && lastFocus.focus();
+  }
+  $("#go-cite").addEventListener("click", openCite);
+  $("#cite-close").addEventListener("click", closeCite);
+  scrim.addEventListener("click", closeCite);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer.classList.contains("is-open")) closeCite(); });
+  $("#cite-fmt").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-fmt]"); if (!b) return;
+    citeFmt = b.dataset.fmt;
+    $("#cite-fmt").querySelectorAll("[data-fmt]").forEach((x) => { const on = x === b; x.classList.toggle("is-on", on); x.setAttribute("aria-checked", on); });
+    $("#cite").textContent = citeText();
+  });
   $("#cite-copy").addEventListener("click", async (e) => {
-    try { await navigator.clipboard.writeText(AB.citation); } catch (err) {}
+    try { await navigator.clipboard.writeText(citeText()); } catch (err) {}
     const b = e.currentTarget; b.querySelector(".gs").textContent = "check";
     setTimeout(() => (b.querySelector(".gs").textContent = "content_copy"), 1400);
   });
+
+  /* ---------------- Reproducibility tab ---------------- */
+  document.querySelectorAll("#tab-repro [data-copy]").forEach((b) => b.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(b.nextElementSibling.textContent); } catch (err) {}
+    b.querySelector(".gs").textContent = "check";
+    setTimeout(() => (b.querySelector(".gs").textContent = "content_copy"), 1400);
+  }));
+  const rsLinks = [...document.querySelectorAll(".rs__toc a")];
+  document.addEventListener("scroll", () => {
+    if ($("#tab-repro").hidden) return;
+    let on = 0;
+    rsLinks.forEach((a, i) => { const t = document.querySelector(a.getAttribute("href")); if (t && t.getBoundingClientRect().top < 160) on = i; });
+    rsLinks.forEach((a, i) => a.classList.toggle("is-on", i === on));
+  }, { passive: true });
 
   /* ---------------- Tasks ---------------- */
   $("#tasks-title").textContent = `Tasks · ${AB.taskCount}`;
