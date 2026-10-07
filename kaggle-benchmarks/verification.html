@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#008ABC">
+  <title>Verification Methodology | Kaggle</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="automationbench.css">
+</head>
+<body>
+  <div class="app" data-page="home">
+    <div class="main" role="main" id="site-content">
+      <div class="vdoc">
+
+        <!-- Left: docs nav -->
+        <nav class="vnav" aria-label="Verification docs">
+          <a class="vnav__back" href="automationbench.html"><span class="gs">arrow_back</span>Back to AutomationBench</a>
+          <div class="vnav__title">Verification docs</div>
+          <a class="vnav__link" href="#overview">Overview</a>
+          <a class="vnav__link is-on" href="#rubric">Methodology</a>
+          <a class="vnav__link" href="#example">Verified benchmarks</a>
+          <a class="vnav__link" href="#faq">FAQ</a>
+        </nav>
+
+        <!-- Main -->
+        <article class="vbody">
+          <div class="crumb">Kaggle Benchmarks · Verification</div>
+          <h1>Kaggle’s Verification Methodology</h1>
+          <p class="lede">Kaggle independently reviews benchmarks hosted on Kaggle Benchmarks. Each review checks whether a benchmark’s results can be interpreted the way its authors describe them, and re-executes the leaderboard on Kaggle’s own compute. This page describes the rubric we use, how we reach a verdict, and what a <b>Verified</b> badge does and doesn’t mean.</p>
+
+          <h2 id="overview">Overview</h2>
+          <p>A leaderboard number is only useful if it measures what it claims to. Benchmarks can be undermined by wrong answer keys, graders that accept incorrect work, ambiguous tasks, broken environments or results that can’t be reproduced. Our reviews look for these problems before a benchmark carries Kaggle’s verification badge.</p>
+          <p>Reviews are independent of a benchmark’s authors. Authors see our findings before publication and can respond or fix issues, but the verdict is Kaggle’s.</p>
+
+          <h3 id="verdicts">Verdicts</h3>
+          <p>Every review ends in one of three verdicts:</p>
+          <div class="verdicts">
+            <div class="verdict verdict--ok">
+              <span class="verdict__chip"><span class="gs">check</span>Verified</span>
+              <p>The benchmark can broadly be interpreted as described. Any errors we found don’t substantially affect results, and Kaggle’s re-execution matches the published scores.</p>
+            </div>
+            <div class="verdict verdict--flawed">
+              <span class="verdict__chip"><span class="gs">warning</span>Flawed</span>
+              <p>The benchmark has one or more substantive flaws that users need to know about to interpret results correctly. We list each flaw on the leaderboard.</p>
+            </div>
+            <div class="verdict verdict--na">
+              <span class="verdict__chip"><span class="gs">help</span>Not enough information</span>
+              <p>We can’t review the benchmark: tasks, grading code or run logs aren’t available to us in enough detail to check.</p>
+            </div>
+          </div>
+
+          <h3 id="selection">Which benchmarks we review</h3>
+          <p>We prioritise benchmarks by three criteria:</p>
+          <ul>
+            <li><b>Impact</b>: the benchmark evaluates tasks that matter, such as real professional work, safety-relevant behaviour or scientific capability.</li>
+            <li><b>Reach</b>: the benchmark is widely cited in model launches and research, or is under-used relative to its quality.</li>
+            <li><b>Diversity</b>: the benchmark covers a capability that other verified benchmarks don’t.</li>
+          </ul>
+          <p>Authors can also request a review when they publish a benchmark on Kaggle.</p>
+
+          <h2 id="rubric">Review rubric</h2>
+          <p>The rubric has two parts. First we check that a benchmark <em>can</em> be reviewed. Then we look for defects that change scores.</p>
+
+          <h3 id="reviewability">Part 1: Reviewability</h3>
+          <p>To be reviewed, a benchmark must give Kaggle access to:</p>
+          <ul>
+            <li>The full task set, or a representative sample of at least 100 tasks when the main split is held out.</li>
+            <li>The grading code or rubric, including any reference answers.</li>
+            <li>A runnable harness pinned to a version, with the exact settings used for the leaderboard (prompts, tools, step limits, reasoning effort).</li>
+            <li>Per-task outputs or trajectories for the published results.</li>
+          </ul>
+          <p>If any of these is missing and can’t be provided, the verdict is <b>Not enough information</b>.</p>
+
+          <h3 id="defects">Part 2: Score-affecting defects</h3>
+          <p>We audit a stratified sample of tasks across every domain or category and classify any problems we find. <span class="rubric-legend"><span class="sev sev--block">Blocking</span> issues lead to a <b>Flawed</b> verdict unless fixed; <span class="sev sev--note">Note</span> issues are published but don’t change the verdict.</span></p>
+          <table class="rubric">
+            <thead><tr><th>Criterion</th><th>What we check</th><th>Threshold</th></tr></thead>
+            <tbody>
+              <tr><td>Answer-key errors</td><td>Reference answers or expected end states are correct. We re-derive answers for sampled tasks by hand.</td><td><span class="sev sev--block">Blocking</span> if &gt;2% of sampled tasks are wrong</td></tr>
+              <tr><td>Grading defects</td><td>The grader accepts correct work and rejects incorrect work. We submit known-good, known-bad and adversarial outputs, including “shotgun” answers.</td><td><span class="sev sev--block">Blocking</span> if a known-bad output passes</td></tr>
+              <tr><td>Task ambiguity</td><td>A competent expert could reach a single intended answer from the prompt and environment alone.</td><td><span class="sev sev--block">Blocking</span> if &gt;5% of sampled tasks are ambiguous</td></tr>
+              <tr><td>Environment failures</td><td>Tools, sandboxes and simulated services behave consistently; failures aren’t mistaken for model errors.</td><td><span class="sev sev--block">Blocking</span> if infra errors exceed 1% of runs</td></tr>
+              <tr><td>Inconsistent settings</td><td>All models are run with the same harness, limits and scoring, and differences (such as reasoning effort or fallbacks) are labelled on the leaderboard.</td><td><span class="sev sev--block">Blocking</span> if unlabelled</td></tr>
+              <tr><td>Contamination exposure</td><td>Whether the scored tasks are public, and whether a held-out split exists.</td><td><span class="sev sev--note">Note</span></td></tr>
+              <tr><td>Saturation</td><td>How much headroom remains between the top score and the ceiling.</td><td><span class="sev sev--note">Note</span></td></tr>
+              <tr><td>Reporting</td><td>Cost, tokens, latency and uncertainty are reported alongside scores.</td><td><span class="sev sev--note">Note</span></td></tr>
+            </tbody>
+          </table>
+
+          <h3 id="execution">Independent execution</h3>
+          <p>We re-run every leaderboard result on Kaggle’s platform compute using the benchmark’s pinned harness. A result is reproduced when Kaggle’s score falls within the reported confidence interval, or within 2 percentage points where none is given. We run each configuration at least three times to measure run-to-run variance, and publish it.</p>
+          <div class="callout"><span class="gs">info</span><p>Re-execution removes self-reported numbers from the leaderboard. Every score on a Verified benchmark is one Kaggle ran itself.</p></div>
+
+          <h2 id="process">Review process</h2>
+          <ol class="steps-v">
+            <li><b>Intake</b>We confirm the benchmark meets the selection criteria and collect tasks, grading code, harness and run logs from the authors.</li>
+            <li><b>Reviewability check</b>We confirm we have everything in Part 1 of the rubric.</li>
+            <li><b>Task and grader audit</b>Two reviewers independently audit a stratified sample and log every issue against the rubric, then reconcile disagreements.</li>
+            <li><b>Independent execution</b>We re-run the leaderboard on Kaggle compute and compare scores.</li>
+            <li><b>Author response</b>Authors get our findings and 14 days to respond or ship fixes. Fixed issues are re-checked.</li>
+            <li><b>Verdict and publication</b>We publish the verdict, the issues found and the authors’ response on the benchmark page.</li>
+            <li><b>Re-review</b>Any new dataset or harness version triggers a new review before the badge carries over.</li>
+          </ol>
+
+          <h2 id="example">Example: AutomationBench</h2>
+          <div class="review-card">
+            <img src="assets/logos/zapier.svg" alt="">
+            <div><b>AutomationBench</b><span>Zapier · dataset 1.0.6</span></div>
+            <span class="verdict__chip" style="background:var(--green-bg);color:#137333;border:1px solid var(--green-line)"><span class="gs">check</span>Verified</span>
+          </div>
+          <ul>
+            <li>Grading checks the final environment state with positive and negative assertions, with no LLM judge. Our known-bad and shotgun submissions all failed.</li>
+            <li>Leaderboard scores use a private held-out split; a 600-task public set is open source for local runs.</li>
+            <li>Runs that rerouted refused tasks to a fallback model are labelled “max with fallback” on the leaderboard.</li>
+            <li>Note: the public task set is in a public repository, so local scores on it carry contamination risk.</li>
+          </ul>
+          <p><a class="inline" href="automationbench.html">Back to the AutomationBench leaderboard</a></p>
+
+          <h2 id="faq">FAQ</h2>
+          <details class="faq"><summary>Does “Verified” mean the benchmark is perfect?<span class="gs">expand_more</span></summary><p>No. It means any errors we found don’t substantially change how results should be read, and that Kaggle reproduced the scores. Minor issues are still listed on the benchmark page.</p></details>
+          <details class="faq"><summary>Can a benchmark lose its badge?<span class="gs">expand_more</span></summary><p>Yes. A new dataset or harness version triggers a re-review, and we re-open reviews when users report credible issues.</p></details>
+          <details class="faq"><summary>How do I request a review?<span class="gs">expand_more</span></summary><p>Benchmark authors can request one when publishing on Kaggle Benchmarks, or by contacting the Kaggle Benchmarks team.</p></details>
+          <details class="faq"><summary>Who does the reviews?<span class="gs">expand_more</span></summary><p>Kaggle’s benchmarks team, with domain experts for specialised tasks. Reviewers don’t review benchmarks they helped build.</p></details>
+        </article>
+
+        <!-- Right: on this page -->
+        <nav class="vtoc" aria-label="On this page">
+          <div class="vtoc__title">On this page</div>
+          <a href="#overview">Overview</a>
+          <a href="#verdicts">Verdicts</a>
+          <a href="#selection">Which benchmarks we review</a>
+          <a href="#rubric">Review rubric</a>
+          <a href="#execution">Independent execution</a>
+          <a href="#process">Review process</a>
+          <a href="#example">Example: AutomationBench</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="chrome.js"></script>
+  <script>
+    // highlight the current section in "On this page"
+    (function () {
+      const links = [...document.querySelectorAll(".vtoc a")];
+      const targets = links.map((a) => document.querySelector(a.getAttribute("href")));
+      const onScroll = () => {
+        let i = 0;
+        targets.forEach((t, k) => { if (t.getBoundingClientRect().top < 140) i = k; });
+        links.forEach((a, k) => a.classList.toggle("is-on", k === i));
+      };
+      document.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

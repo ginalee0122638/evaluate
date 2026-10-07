@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#008ABC">
+  <title>AutomationBench | Kaggle</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="automationbench.css">
+</head>
+<body>
+  <div class="app" data-page="home">
+    <div class="main" role="main" id="site-content">
+      <div class="ab">
+
+        <!-- ============ Header ============ -->
+        <header class="ab-head">
+          <div class="ab-head__org">
+            <img src="assets/logos/zapier.svg" alt="" class="ab-head__logo">
+            <span id="ab-org"></span>
+            <span class="ab-dot" aria-hidden="true"></span>
+            <button class="icon-btn ab-head__more" aria-label="More actions" title="More actions"><span class="gs">more_horiz</span></button>
+          </div>
+          <div class="ab-head__titlerow">
+            <h1 class="ab-title" id="ab-title"></h1>
+            <a class="verified" href="verification.html" title="How Kaggle verifies benchmarks"><span class="gs">check</span>Verified</a>
+          </div>
+          <div class="ab-desc" id="ab-desc">
+            <p class="ab-desc__text" id="ab-desc-text"></p>
+            <button class="ab-desc__more" id="ab-desc-more">more</button>
+          </div>
+          <nav class="ab-links" id="ab-links" aria-label="Resources"></nav>
+          <dl class="ab-stats" id="ab-stats"></dl>
+        </header>
+
+        <div class="ab-tabs" role="tablist" aria-label="Benchmark views">
+          <button role="tab" class="ab-tab is-active" aria-selected="true" data-tab="leaderboard">Leaderboard</button>
+          <button role="tab" class="ab-tab" aria-selected="false" data-tab="repro">Reproducibility</button>
+        </div>
+
+        <!-- ============ Leaderboard tab ============ -->
+        <div class="ab-panel" id="tab-leaderboard">
+
+          <section class="ab-section" id="lb">
+            <div class="lb-head">
+              <div>
+                <h2 class="ab-h2" id="lb-title">Leaderboard</h2>
+                <p class="ab-sub" id="lb-sub" hidden></p>
+              </div>
+              <div class="lb-head__icons">
+                <button class="icon-btn ab-icon" aria-label="Filter providers" title="Filter providers" data-pop="providers"><span class="gs">filter_list</span></button>
+                <button class="icon-btn ab-icon is-on" aria-label="Graph view" title="Graph view" data-view="graph"><span class="gs">insert_chart</span></button>
+                <button class="icon-btn ab-icon" aria-label="Table view" title="Table view" data-view="table"><span class="gs">table</span></button>
+                <div class="ab-pop" id="pop-providers" hidden></div>
+              </div>
+            </div>
+
+            <div class="lb-controls">
+              <div class="lb-controls__left">
+                <div class="seg" role="radiogroup" aria-label="Attempts" id="passk">
+                  <button role="radio" aria-checked="true" class="seg__btn is-on" data-k="1">pass@1</button>
+                  <button role="radio" aria-checked="false" class="seg__btn" data-k="3">pass@3</button>
+                  <button role="radio" aria-checked="false" class="seg__btn" data-k="5">pass@5</button>
+                </div>
+                <label class="ab-select ab-select--plain" id="showing-wrap">
+                  <select id="showing">
+                    <option value="top">Showing Top Score</option>
+                    <option value="all">Showing All Runs</option>
+                  </select>
+                  <span class="gs">expand_more</span>
+                </label>
+              </div>
+              <div class="lb-controls__right">
+                <label class="ab-select"><span class="ab-select__label">Harness</span>
+                  <select id="f-harness"><option value="">All</option></select>
+                  <span class="gs">expand_more</span>
+                </label>
+                <label class="ab-select"><span class="ab-select__label">Model weights</span>
+                  <select id="f-weights">
+                    <option value="">All</option>
+                    <option value="open-source">Open-source</option>
+                    <option value="proprietary">Proprietary</option>
+                  </select>
+                  <span class="gs">expand_more</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="lb-view" id="view-graph">
+              <div class="bars" id="bars"></div>
+            </div>
+            <div class="lb-view" id="view-table" hidden>
+              <div class="tbl-wrap">
+                <table class="tbl" id="tbl">
+                  <thead>
+                    <tr>
+                      <th class="c-rank">#</th>
+                      <th class="c-model">Model</th>
+                      <th class="c-harness">Harness</th>
+                      <th class="c-reason">Reasoning level</th>
+                      <th class="c-num c-sort is-sorted" data-sort="score"><span class="gs">arrow_upward</span>Score</th>
+                      <th class="c-num c-sort" data-sort="cost">Cost / Task</th>
+                      <th class="c-num">Input / Output $</th>
+                      <th class="c-num">Input / Output Tok</th>
+                      <th class="c-num">Avg Latency</th>
+                      <th class="c-details">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody"></tbody>
+                </table>
+              </div>
+              <button class="tbl-more" id="tbl-more"><span class="gs">expand_more</span><span id="tbl-more-label"></span></button>
+            </div>
+            <div class="lb-empty" id="lb-empty" hidden>
+              <span class="gs">search_off</span>
+              <p>No results match these filters yet.</p>
+              <button class="btn btn--outlined" id="lb-reset">Clear filters</button>
+            </div>
+            <p class="lb-note" id="lb-note"></p>
+          </section>
+
+          <!-- Pareto -->
+          <section class="ab-section pareto" id="pareto-section">
+            <div class="pareto-head">
+              <div class="pareto-head__title">
+                <label class="title-select"><select id="py"><option value="score">Total score</option></select><span class="gs">expand_more</span></label>
+                <span class="pareto-vs">vs</span>
+                <label class="title-select"><select id="px"><option value="cost">Cost per task</option><option value="lat">Avg latency</option></select><span class="gs">expand_more</span></label>
+              </div>
+              <div class="lb-head__icons">
+                <button class="icon-btn ab-icon" aria-label="Replay animation" title="Replay animation" id="p-replay"><span class="gs">replay</span></button>
+                <button class="icon-btn ab-icon" aria-label="Download data (CSV)" title="Download data (CSV)" id="p-download"><span class="gs">download</span></button>
+                <button class="icon-btn ab-icon" aria-label="Full screen" title="Full screen" id="p-full"><span class="gs">fullscreen</span></button>
+              </div>
+            </div>
+            <label class="ab-select ab-select--plain">
+              <select id="p-show">
+                <option value="all">Showing latest, top &amp; frontier</option>
+                <option value="frontier">Showing frontier only</option>
+              </select>
+              <span class="gs">expand_more</span>
+            </label>
+            <div class="pareto-chart" id="pareto-chart">
+              <svg id="pareto" role="img" aria-label="Score versus cost per task, with the Pareto frontier"></svg>
+              <div class="p-tip" id="p-tip" hidden></div>
+            </div>
+            <div class="pareto-foot">
+              <div class="p-legend" id="p-legend"></div>
+              <span class="p-hint">Scroll to zoom · Drag to pan · Double-click to reset</span>
+            </div>
+          </section>
+
+          <!-- Why trust -->
+          <section class="ab-section trust">
+            <h2 class="ab-h2">Why trust this benchmark</h2>
+            <div class="trust__grid" id="trust"></div>
+          </section>
+
+          <!-- Methodology -->
+          <section class="ab-section method">
+            <h2 class="ab-h2">Benchmark Methodology</h2>
+            <div id="method"></div>
+            <h3 class="method__h">Citation</h3>
+            <div class="cite">
+              <pre id="cite"></pre>
+              <button class="icon-btn cite__copy" id="cite-copy" aria-label="Copy citation" title="Copy citation"><span class="gs">content_copy</span></button>
+            </div>
+          </section>
+
+          <!-- Tasks -->
+          <section class="ab-section tasks">
+            <div class="tasks__head">
+              <h2 class="ab-h2" id="tasks-title"></h2>
+              <a class="btn btn--outlined tasks__all" href="https://github.com/zapier/AutomationBench" target="_blank" rel="noopener">View all<span class="gs">arrow_forward</span></a>
+            </div>
+            <div class="pills" role="tablist" aria-label="Domain" id="task-tabs"></div>
+            <div class="task-grid" id="task-grid"></div>
+          </section>
+        </div>
+
+        <!-- ============ Reproducibility tab ============ -->
+        <div class="ab-panel" id="tab-repro" hidden>
+          <section class="ab-section repro">
+            <h2 class="ab-h2">Reproduce these results</h2>
+            <p class="ab-p">Every leaderboard row was executed on Kaggle compute with a pinned harness and dataset version. Run the public set yourself with the same CLI Zapier uses:</p>
+            <div class="cite"><pre>git clone https://github.com/zapier/AutomationBench.git
+cd AutomationBench
+uv sync
+uv run auto-bench --model &lt;model-id&gt; --reasoning-effort max</pre></div>
+            <div class="repro__grid">
+              <div><b>Dataset</b><span>automation-bench 1.0.6</span></div>
+              <div><b>Toolset</b><span>api (search + execute)</span></div>
+              <div><b>Step cap</b><span>50 steps per task</span></div>
+              <div><b>Run-to-run variance</b><span>typically within 1%</span></div>
+              <div><b>Grader</b><span>Final-state assertions, no LLM judge</span></div>
+              <div><b>Split</b><span>Private held-out (leaderboard) · 600-task public set</span></div>
+            </div>
+            <p class="ab-p muted">Scores on the public set won't match the leaderboard 1:1, since the leaderboard uses a harder held-out split. Expect directional agreement.</p>
+          </section>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="chrome.js"></script>
+  <script src="ab-data.js"></script>
+  <script src="automationbench.js"></script>
+</body>
+</html>

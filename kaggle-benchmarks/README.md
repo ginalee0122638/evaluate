@@ -21,6 +21,11 @@ Open http://localhost:5173. The page reloads by itself whenever you save a file 
 | `chrome.js` | Side nav, top bar and cookie bar shared by every page |
 | `stories.js` | Customer story tiles (text, stats, logos, links) |
 | `pages.css` | Styles for the Build Benchmarks and story pages |
+| `automationbench.html` | AutomationBench benchmark page (opened from its card under Explore benchmarks) |
+| `ab-data.js` | AutomationBench leaderboard rows, methodology text, tasks. Sources and estimates are noted at the top |
+| `automationbench.js` | Leaderboard graph/table toggle, pass@k, filters, sorting, animated Pareto chart, tasks tabs |
+| `automationbench.css` | Styles for the AutomationBench and verification pages |
+| `verification.html` | Kaggle's Verification Methodology (opened from the green Verified tag) |
 | `styles.css` | All styling. Design tokens (colors, fonts, radii, sidebar width) are at the top in `:root` |
 | `data.js` | Everything data-driven: hero counts, coding leaderboard scores, speed and cost, benchmark cards, new models, score-progression points, new benchmarks |
 | `app.js` | Rendering and interactions: tabs, number counters, upvotes, card expanding, chart highlighting |
