@@ -14,7 +14,7 @@ const TYPES = {
 const RELOAD_SNIPPET = `<script>(() => { const es = new EventSource("/__reload"); es.onmessage = () => location.reload(); })();</script>`;
 const clients = new Set();
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   const url = decodeURIComponent(req.url.split("?")[0]);
   if (url === "/__reload") {
     res.writeHead(200, { "Content-Type": "text/event-stream", "Cache-Control": "no-cache", Connection: "keep-alive" });
@@ -32,7 +32,27 @@ http.createServer((req, res) => {
     res.writeHead(200, { "Content-Type": TYPES[ext] || "application/octet-stream", "Cache-Control": "no-store" });
     res.end(ext === ".html" ? buf.toString().replace("</body>", RELOAD_SNIPPET + "</body>") : buf);
   });
-}).listen(PORT, () => console.log(`Serving ${ROOT}\n→ http://localhost:${PORT}  (auto-reloads on save)`));
+});
+
+// Print which folder and commit is being served, so a stale server is easy to spot.
+let commit = "";
+try { commit = require("child_process").execSync("git log -1 --format=%h\\ %s", { cwd: ROOT, stdio: ["ignore", "pipe", "ignore"] }).toString().trim(); } catch (e) {}
+
+// If the port is taken (usually an older dev server still running), use the next free one.
+function start(port, tries = 0) {
+  server.once("error", (err) => {
+    if (err.code === "EADDRINUSE" && tries < 10) {
+      if (tries === 0) console.warn(`\n⚠  Port ${port} is already in use, probably by an older dev server that is still running.\n   That server may be showing an old copy of the site. Stop it (Ctrl+C in its terminal) to free the port.`);
+      start(port + 1, tries + 1);
+    } else { throw err; }
+  });
+  server.listen(port);
+}
+server.once("listening", () => {
+  const port = server.address().port;
+  console.log(`\nServing ${ROOT}${commit ? `\nCommit  ${commit}` : ""}\n→ http://localhost:${port}  (auto-reloads on save)\n`);
+});
+start(PORT);
 
 let timer;
 fs.watch(ROOT, { recursive: true }, (_evt, name) => {
