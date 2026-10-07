@@ -67,7 +67,14 @@
     e.currentTarget.textContent = open ? "less" : "more";
   });
   $("#ab-links").innerHTML = M.links.map((l) =>
-    `<a href="${l.href}" target="_blank" rel="noopener"><span class="gs">${l.icon}</span>${l.label}</a>`).join("");
+    `<a href="${l.href}" target="_blank" rel="noopener"><span class="gs">${l.icon}</span>${l.label}</a>`).join("") +
+    `<a href="#methodology" id="go-method"><span class="gs">menu_book</span>Methodology</a>`;
+  $("#go-method").addEventListener("click", (e) => {
+    e.preventDefault();
+    const tab = document.querySelector('.ab-tab[data-tab="leaderboard"]');
+    if ($("#tab-leaderboard").hidden) tab.click();
+    $("#methodology").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   $("#ab-stats").innerHTML = [
     [M.released, "Released"],
     [M.categories.join(", "), "Categories"],
@@ -166,6 +173,14 @@
     }));
   }
 
+  /* ---------------- Trajectory links ---------------- */
+  // Each leaderboard row opens a trajectory for one of its tasks (see ab-sim.js).
+  function trajHref(r) {
+    const key = ABSIM.slug(r.model + "-" + r.reasoning);
+    const task = window.AB_TASKS[ABSIM.hash(key) % window.AB_TASKS.length];
+    return `trajectory.html?model=${encodeURIComponent(key)}&task=${encodeURIComponent(task.id)}&trial=1`;
+  }
+
   /* ---------------- Table ---------------- */
   function renderTable() {
     const list = currentRows();
@@ -190,7 +205,7 @@
         <td class="c-num mono">${fmtPrice(r.price[0])} / ${fmtPrice(r.price[1])}</td>
         <td class="c-num mono">${r.tokK[0]} / ${r.tokK[1]}</td>
         <td class="c-num mono">${fmtLat(r.latK)}</td>
-        <td class="c-details"><a href="#" class="traj"><span class="gs">terminal</span>Trajectories</a></td>
+        <td class="c-details"><a href="${trajHref(r)}" class="traj"><span class="gs">terminal</span>Trajectories</a></td>
       </tr>`).join("");
     const more = list.length - LIMIT;
     $("#tbl-more").hidden = more <= 0;
@@ -489,6 +504,94 @@
   }, { threshold: 0.35 });
   io.observe($("#pareto-chart"));
   let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => renderPareto(false), 120); });
+
+  /* ---------------- Download image / share ---------------- */
+  function loadScript(src) {
+    return new Promise((res, rej) => { const sc = document.createElement("script"); sc.src = src; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc); });
+  }
+  $("#lb-image").addEventListener("click", async (e) => {
+    const btn = e.currentTarget; btn.classList.add("is-busy");
+    try {
+      if (!window.html2canvas) await loadScript("vendor/html2canvas.min.js");
+      const node = $("#lb");
+      const canvas = await window.html2canvas(node, { backgroundColor: "#ffffff", scale: 2, ignoreElements: (el) => el.classList && (el.classList.contains("lb-head__icons") || el.id === "pop-providers") });
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = `automationbench-leaderboard-pass@${state.k}.png`;
+      a.click();
+    } catch (err) {
+      alert("Couldn’t create the image. Open the page through the dev server (npm run dev) rather than as a file, so the browser allows exporting it.");
+    } finally { btn.classList.remove("is-busy"); }
+  });
+  $("#lb-share").addEventListener("click", () => {
+    const top = currentRows().slice(0, 3).map((r, i) => `${i + 1}. ${r.model} ${fmtPct(r.s)}`).join("\n");
+    const text = `AutomationBench leaderboard (pass@${state.k}) on Kaggle Benchmarks:\n${top}`;
+    window.open(`https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(location.href)}`, "_blank", "noopener,width=600,height=520");
+  });
+
+  /* ---------------- Waffle: tasks × models ---------------- */
+  const WT = window.AB_TASKS, WM = ABSIM.models;
+  const DOMAIN_LABEL = { sales: "Sales", marketing: "Marketing", operations: "Operations", support: "Support", finance: "Finance", hr: "HR" };
+  $("#w-domain").insertAdjacentHTML("beforeend", Object.entries(DOMAIN_LABEL).map(([k, v]) => `<option value="${k}">${v}</option>`).join(""));
+  const results = new Map(); // key: model|task -> boolean[5]
+  WM.forEach((m) => WT.forEach((t) => results.set(m.key + "|" + t.id, ABSIM.trials(m, t))));
+  const passCount = (m, t) => results.get(m.key + "|" + t.id).filter(Boolean).length;
+  const taskRate = (t) => WM.reduce((a, m) => a + passCount(m, t), 0) / (WM.length * ABSIM.TRIALS);
+  const SHADES = ["#f1f3f4", "#d2ecd9", "#a8dab5", "#6fc48a", "#34a853", "#137333"]; // 0..5 passes
+
+  $("#w-legend").innerHTML = `<span>Trials passed</span>` + SHADES.map((c, i) => `<span class="w-key"><i style="background:${c}"></i>${i}/5</span>`).join("") +
+    `<span class="w-legend__note">Columns ranked by leaderboard score</span>`;
+
+  function renderWaffle() {
+    const dom = $("#w-domain").value, sort = $("#w-sort").value;
+    let tasks = WT.filter((t) => !dom || t.domain === dom);
+    if (sort === "hard") tasks = [...tasks].sort((a, b) => taskRate(a) - taskRate(b));
+    if (sort === "easy") tasks = [...tasks].sort((a, b) => taskRate(b) - taskRate(a));
+    const g = $("#waffle");
+    g.style.setProperty("--cols", WM.length);
+    const head = `<div class="w-corner"></div>` + WM.map((m, j) =>
+      `<a class="w-col" href="model.html?m=${ABSIM.slug(m.model)}" data-col="${j}" title="${esc(m.model)} · ${fmtPct(m.score)}"><img src="${P[m.provider].logo}" alt=""><span>${esc(m.model)}</span></a>`).join("") + `<div class="w-rate-h">Pass rate</div>`;
+    let lastDom = null;
+    const body = tasks.map((t, i) => {
+      const sep = sort === "domain" && t.domain !== lastDom ? `<div class="w-domain" style="grid-column:1/-1">${DOMAIN_LABEL[t.domain]}</div>` : "";
+      lastDom = t.domain;
+      return sep + `<div class="w-task" data-row="${i}" title="${esc(t.id)}"><span>${esc(t.title)}</span></div>` +
+        WM.map((m, j) => {
+          const n = passCount(m, t);
+          const first = results.get(m.key + "|" + t.id).findIndex(Boolean);
+          const trial = (first < 0 ? 0 : first) + 1;
+          return `<a class="w-cell" style="background:${SHADES[n]}" data-row="${i}" data-col="${j}" data-n="${n}" data-model="${m.key}" data-task="${t.id}"
+            href="trajectory.html?model=${encodeURIComponent(m.key)}&task=${encodeURIComponent(t.id)}&trial=${trial}" aria-label="${esc(m.model)} on ${esc(t.title)}: ${n} of 5 trials passed"></a>`;
+        }).join("") + `<div class="w-rate">${Math.round(taskRate(t) * 100)}%</div>`;
+    }).join("");
+    const foot = `<div class="w-task w-total">Model pass rate</div>` + WM.map((m) => {
+      const v = tasks.reduce((a, t) => a + passCount(m, t), 0) / (tasks.length * ABSIM.TRIALS);
+      return `<div class="w-colrate">${Math.round(v * 100)}</div>`;
+    }).join("") + `<div></div>`;
+    g.innerHTML = head + body + foot;
+  }
+  $("#w-domain").addEventListener("change", renderWaffle);
+  $("#w-sort").addEventListener("change", renderWaffle);
+
+  const wtip = $("#w-tip");
+  $("#waffle").addEventListener("mouseover", (e) => {
+    const c = e.target.closest(".w-cell");
+    $("#waffle").querySelectorAll(".is-x").forEach((x) => x.classList.remove("is-x"));
+    if (!c) { wtip.hidden = true; return; }
+    $("#waffle").querySelectorAll(`[data-row="${c.dataset.row}"].w-task, [data-col="${c.dataset.col}"].w-col`).forEach((x) => x.classList.add("is-x"));
+    const m = WM.find((x) => x.key === c.dataset.model), t = WT.find((x) => x.id === c.dataset.task);
+    const runs = results.get(m.key + "|" + t.id);
+    wtip.innerHTML = `<div class="w-tip__t">${esc(t.title)}</div><div class="w-tip__id">${t.id}</div>
+      <div class="w-tip__m"><img src="${P[m.provider].logo}" alt="">${esc(m.model)}</div>
+      <div class="w-tip__runs">${runs.map((ok, i) => `<span class="${ok ? "ok" : "no"}" title="Trial ${i + 1}">${ok ? "✓" : "✕"}</span>`).join("")}</div>
+      <div class="w-tip__hint">${c.dataset.n}/5 passed · click to open trajectory</div>`;
+    wtip.hidden = false;
+    const sec = $("#waffle-section").getBoundingClientRect(), cb = c.getBoundingClientRect();
+    let left = cb.right - sec.left + 10; if (left + 230 > sec.width) left = cb.left - sec.left - 240;
+    wtip.style.left = left + "px"; wtip.style.top = (cb.top - sec.top - 8) + "px";
+  });
+  $("#waffle").addEventListener("mouseleave", () => { wtip.hidden = true; $("#waffle").querySelectorAll(".is-x").forEach((x) => x.classList.remove("is-x")); });
+  renderWaffle();
 
   update();
 })();

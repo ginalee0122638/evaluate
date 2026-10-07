@@ -376,3 +376,55 @@ details.faq p { margin: 0 0 16px; }
   .verdicts { grid-template-columns: 1fr; }
   .rubric { display: block; overflow-x: auto; }
 }
+
+/* ---------------- Icon tooltips + extra leaderboard icons ---------------- */
+[data-tip] { position: relative; }
+[data-tip]::after {
+  content: attr(data-tip); position: absolute; top: calc(100% + 6px); right: 0; z-index: 20;
+  padding: 6px 10px; border-radius: 6px; background: #303134; color: #fff; font: 500 12px/16px var(--gs);
+  white-space: nowrap; opacity: 0; transform: translateY(-2px); pointer-events: none; transition: opacity .12s, transform .12s;
+}
+[data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: none; }
+.ab-icon-sep { width: 1px; height: 24px; margin: 8px 6px; background: var(--line); }
+.ab-icon.is-busy { opacity: .5; pointer-events: none; }
+.ab-icon svg { display: block; }
+
+/* ---------------- Waffle ---------------- */
+.waffle { position: relative; }
+.waffle-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.waffle-controls { display: flex; gap: 12px; flex-wrap: wrap; }
+.waffle-legend { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; margin-top: 20px; font-size: 13px; color: var(--muted); }
+.w-key { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 12px; }
+.w-key i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0, 0, 0, .06); }
+.w-legend__note { margin-left: auto; }
+.waffle-wrap { margin-top: 16px; overflow-x: auto; padding-bottom: 8px; }
+.waffle-grid { display: grid; grid-template-columns: 230px repeat(var(--cols), 30px) 64px; column-gap: 4px; row-gap: 4px; width: max-content; align-items: center; }
+.w-corner { height: 140px; }
+.w-col { height: 140px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; color: #444746; }
+.w-col img { width: 20px; height: 20px; border-radius: 50%; order: 2; }
+.w-col span { order: 1; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 12px; line-height: 14px; max-height: 108px; overflow: hidden; text-overflow: ellipsis; }
+.w-col:hover, .w-col.is-x { color: #1f1f1f; font-weight: 600; }
+.w-rate-h { height: 140px; display: flex; align-items: flex-end; justify-content: flex-end; font-size: 12px; color: var(--muted); padding-bottom: 2px; }
+.w-domain { margin-top: 10px; padding: 4px 0; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line-2); }
+.w-task { height: 30px; display: flex; align-items: center; padding-right: 12px; font-size: 13px; color: #3c4043; min-width: 0; }
+.w-task span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.w-task.is-x { color: #1f1f1f; font-weight: 600; }
+.w-cell { width: 30px; height: 30px; border-radius: 5px; border: 1px solid rgba(0, 0, 0, .05); transition: transform .12s, box-shadow .12s; }
+.w-cell:hover, .w-cell:focus-visible { transform: scale(1.18); box-shadow: 0 0 0 2px #1f1f1f; position: relative; z-index: 2; }
+.w-rate { text-align: right; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.w-total { margin-top: 8px; font-weight: 500; color: #1f1f1f; }
+.w-colrate { margin-top: 8px; text-align: center; font-family: var(--mono); font-size: 11px; color: #1f1f1f; }
+.w-tip {
+  position: absolute; z-index: 10; width: 220px; padding: 12px 14px; pointer-events: none;
+  background: #fff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, .14), 0 0 0 1px rgba(0, 0, 0, .05); font-size: 13px;
+}
+.w-tip__t { font-weight: 500; font-size: 14px; }
+.w-tip__id { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+.w-tip__m { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.w-tip__m img { width: 18px; height: 18px; border-radius: 50%; }
+.w-tip__runs { display: flex; gap: 4px; margin-top: 10px; }
+.w-tip__runs span { width: 24px; height: 24px; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.w-tip__runs .ok { background: #e6f4ea; color: #137333; }
+.w-tip__runs .no { background: #fce8e6; color: #a50e0e; }
+.w-tip__hint { margin-top: 10px; font-size: 12px; color: var(--muted); }
+@media (max-width: 719px) { .waffle-grid { grid-template-columns: 150px repeat(var(--cols), 26px) 48px; } .w-cell { width: 26px; height: 26px; } .w-legend__note { margin-left: 0; } }

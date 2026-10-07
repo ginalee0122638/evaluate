@@ -26,6 +26,12 @@ Open http://localhost:5173. The page reloads by itself whenever you save a file 
 | `automationbench.js` | Leaderboard graph/table toggle, pass@k, filters, sorting, animated Pareto chart, tasks tabs |
 | `automationbench.css` | Styles for the AutomationBench and verification pages |
 | `verification.html` | Kaggle's Verification Methodology (opened from the green Verified tag) |
+| `ab-tasks.js` | 40 real AutomationBench tasks (prompt + tool list) from Zapier's public repo |
+| `ab-sim.js` | Generates the illustrative per-task results and trajectories behind the waffle chart |
+| `trajectory.html` / `.js` / `.css` | Task trajectory view (modelled on the Harbor trial viewer). Opened from waffle squares and the table's Trajectories links |
+| `models.html` / `model.html` / `models.js` / `models.css` | Models landing page and per-model page |
+| `models-data.js` | Builds each model's results from the data already on the site |
+| `vendor/html2canvas.min.js` | Library behind "Download leaderboard image" (MIT). Export works when the page is opened via `npm run dev` |
 | `styles.css` | All styling. Design tokens (colors, fonts, radii, sidebar width) are at the top in `:root` |
 | `data.js` | Everything data-driven: hero counts, coding leaderboard scores, speed and cost, benchmark cards, new models, score-progression points, new benchmarks |
 | `app.js` | Rendering and interactions: tabs, number counters, upvotes, card expanding, chart highlighting |

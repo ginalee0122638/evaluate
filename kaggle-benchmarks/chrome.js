@@ -1,5 +1,5 @@
 // Shared page chrome: side nav, top bar and cookie bar.
-// Each page has <div class="app" data-page="home|build|story"> and a <div class="main"> inside it.
+// Each page has <div class="app" data-page="home|build|story|models"> and a <div class="main"> inside it.
 (function () {
   const app = document.querySelector(".app");
   const page = app.dataset.page || "home";
@@ -40,6 +40,7 @@
             <li>${navItem({ label: "Build Benchmarks", href: "build.html", active: onBuild, dense: true })}</li>
           </ul>
         </li>
+        <li>${navItem({ icon: "deployed_code", label: "Models", href: "models.html", active: page === "models", fill: page === "models" })}</li>
         <li>${navItem({ icon: "smart_toy", label: "Game Arena", href: "#" })}</li>
       </ul>
       <ul class="navlist" role="list">

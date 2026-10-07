@@ -54,9 +54,12 @@
                 <p class="ab-sub" id="lb-sub" hidden></p>
               </div>
               <div class="lb-head__icons">
-                <button class="icon-btn ab-icon" aria-label="Filter providers" title="Filter providers" data-pop="providers"><span class="gs">filter_list</span></button>
-                <button class="icon-btn ab-icon is-on" aria-label="Graph view" title="Graph view" data-view="graph"><span class="gs">insert_chart</span></button>
-                <button class="icon-btn ab-icon" aria-label="Table view" title="Table view" data-view="table"><span class="gs">table</span></button>
+                <button class="icon-btn ab-icon" aria-label="Filter providers" data-tip="Filter providers" data-pop="providers"><span class="gs">filter_list</span></button>
+                <button class="icon-btn ab-icon is-on" aria-label="Graph view" data-tip="Graph view" data-view="graph"><span class="gs">insert_chart</span></button>
+                <button class="icon-btn ab-icon" aria-label="Table view" data-tip="Table view" data-view="table"><span class="gs">table</span></button>
+                <span class="ab-icon-sep" aria-hidden="true"></span>
+                <button class="icon-btn ab-icon" aria-label="Download leaderboard image" data-tip="Download leaderboard image" id="lb-image"><span class="gs">download</span></button>
+                <button class="icon-btn ab-icon" aria-label="Share on X" data-tip="Share on X" id="lb-share"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button>
                 <div class="ab-pop" id="pop-providers" hidden></div>
               </div>
             </div>
@@ -125,6 +128,12 @@
             <p class="lb-note" id="lb-note"></p>
           </section>
 
+          <!-- Why trust -->
+          <section class="ab-section trust">
+            <h2 class="ab-h2">Why trust this benchmark</h2>
+            <div class="trust__grid" id="trust"></div>
+          </section>
+
           <!-- Pareto -->
           <section class="ab-section pareto" id="pareto-section">
             <div class="pareto-head">
@@ -156,22 +165,7 @@
             </div>
           </section>
 
-          <!-- Why trust -->
-          <section class="ab-section trust">
-            <h2 class="ab-h2">Why trust this benchmark</h2>
-            <div class="trust__grid" id="trust"></div>
-          </section>
 
-          <!-- Methodology -->
-          <section class="ab-section method">
-            <h2 class="ab-h2">Benchmark Methodology</h2>
-            <div id="method"></div>
-            <h3 class="method__h">Citation</h3>
-            <div class="cite">
-              <pre id="cite"></pre>
-              <button class="icon-btn cite__copy" id="cite-copy" aria-label="Copy citation" title="Copy citation"><span class="gs">content_copy</span></button>
-            </div>
-          </section>
 
           <!-- Tasks -->
           <section class="ab-section tasks">
@@ -181,6 +175,39 @@
             </div>
             <div class="pills" role="tablist" aria-label="Domain" id="task-tabs"></div>
             <div class="task-grid" id="task-grid"></div>
+          </section>
+
+          <!-- Waffle: per-task results -->
+          <section class="ab-section waffle" id="waffle-section">
+            <div class="waffle-head">
+              <div>
+                <h2 class="ab-h2">Task results by model</h2>
+                <p class="ab-sub">40 tasks × the leading models, 5 trials each. Click a square to open that run's trajectory.</p>
+              </div>
+              <div class="waffle-controls">
+                <label class="ab-select"><span class="ab-select__label">Domain</span>
+                  <select id="w-domain"><option value="">All</option></select><span class="gs">expand_more</span>
+                </label>
+                <label class="ab-select"><span class="ab-select__label">Sort tasks</span>
+                  <select id="w-sort"><option value="domain">By domain</option><option value="hard">Hardest first</option><option value="easy">Easiest first</option></select><span class="gs">expand_more</span>
+                </label>
+              </div>
+            </div>
+            <div class="waffle-legend" id="w-legend"></div>
+            <div class="waffle-wrap"><div class="waffle-grid" id="waffle"></div></div>
+            <div class="w-tip" id="w-tip" hidden></div>
+            <p class="lb-note">Per-task results are illustrative for this prototype: Zapier publishes overall scores, not per-task runs. Each model's overall pass rate here tracks its leaderboard score.</p>
+          </section>
+
+          <!-- Methodology -->
+          <section class="ab-section method" id="methodology">
+            <h2 class="ab-h2">Benchmark Methodology</h2>
+            <div id="method"></div>
+            <h3 class="method__h">Citation</h3>
+            <div class="cite">
+              <pre id="cite"></pre>
+              <button class="icon-btn cite__copy" id="cite-copy" aria-label="Copy citation" title="Copy citation"><span class="gs">content_copy</span></button>
+            </div>
           </section>
         </div>
 
@@ -211,6 +238,8 @@ uv run auto-bench --model &lt;model-id&gt; --reasoning-effort max</pre></div>
 
   <script src="chrome.js"></script>
   <script src="ab-data.js"></script>
+  <script src="ab-tasks.js"></script>
+  <script src="ab-sim.js"></script>
   <script src="automationbench.js"></script>
 </body>
 </html>

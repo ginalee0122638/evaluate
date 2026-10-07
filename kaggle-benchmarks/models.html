@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#008ABC">
+  <title>Models | Kaggle</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="automationbench.css">
+  <link rel="stylesheet" href="models.css">
+</head>
+<body data-view="list">
+  <div class="app" data-page="models">
+    <div class="main" role="main" id="site-content">
+      <div class="mx">
+        <header class="mx-hero">
+          <div class="mx-eyebrow">Kaggle · Models</div>
+          <h1 class="mx-title">Models</h1>
+          <p class="mx-lede">Every model evaluated on Kaggle Benchmarks, with its results across leaderboards. Pick a model to see where it leads, where it trails, and what it costs.</p>
+        </header>
+
+        <div class="mx-toolbar">
+          <label class="mx-search"><span class="gs">search</span><input id="mx-q" type="search" placeholder="Search models or providers"></label>
+          <div class="mx-chips" id="mx-providers"></div>
+          <div class="mx-toolbar__right">
+            <label class="ab-select"><span class="ab-select__label">Weights</span>
+              <select id="mx-weights"><option value="">All</option><option value="Open">Open</option><option value="Proprietary">Proprietary</option></select><span class="gs">expand_more</span>
+            </label>
+            <label class="ab-select"><span class="ab-select__label">Sort</span>
+              <select id="mx-sort">
+                <option value="best">Best rank</option>
+                <option value="composite">Kaggle composite</option>
+                <option value="benchmarks">Benchmarks evaluated</option>
+                <option value="name">Name</option>
+              </select><span class="gs">expand_more</span>
+            </label>
+          </div>
+        </div>
+        <p class="mx-count" id="mx-count"></p>
+
+        <section class="mx-featured" id="mx-featured"></section>
+        <div class="mx-grid" id="mx-grid"></div>
+        <p class="mx-foot">Kaggle composite is the mean of a model’s domain scores (Coding, Agentic, Reasoning, Multimodal, Mathematics, Knowledge) on Kaggle Benchmarks.</p>
+      </div>
+    </div>
+  </div>
+  <script src="chrome.js"></script>
+  <script src="data.js"></script>
+  <script src="ab-data.js"></script>
+  <script src="models-data.js"></script>
+  <script src="models.js"></script>
+</body>
+</html>
