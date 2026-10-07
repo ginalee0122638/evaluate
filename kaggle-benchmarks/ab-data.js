@@ -17,6 +17,7 @@ window.AB = {
     released: "2026-04-21",
     categories: ["Agentic", "Business", "Web + Computer Use"],
     modelsBenchmarked: 52,
+    leaderboardTasks: 657, // private held-out set (dataset 1.0.6); Total Cost = cost per task × this
     topModel: "Gemini 4 Argon",
     resultsUpdated: "Updated Oct 6, 2026",
     description:

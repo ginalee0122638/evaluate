@@ -10,10 +10,11 @@ window.PAGE_DATA = {
     openai: { name: "OpenAI", logo: "assets/logos/openai.svg", color: "#20D3C2" },
     anthropic: { name: "Anthropic", logo: "assets/logos/anthropic.svg", color: "#FF9447" },
     xai: { name: "xAI", logo: "assets/logos/xai.svg", color: "#E5487F" },
-    deepseek: { name: "DeepSeek", logo: null, color: "#7C6CF6" },
+    deepseek: { name: "DeepSeek", logo: "assets/logos/deepseek.svg", color: "#7C6CF6" },
     qwen: { name: "Qwen", logo: "assets/logos/qwen.svg", color: "#7C6CF6" },
     meta: { name: "Meta", logo: "assets/logos/meta.svg", color: "#0866FF" },
     moonshot: { name: "Moonshot AI", logo: "assets/logos/moonshot.svg", color: "#111111" },
+    stepfun: { name: "StepFun", logo: "assets/logos/stepfun.svg", color: "#1C64F2" },
   },
 
   hero: {
@@ -25,58 +26,116 @@ window.PAGE_DATA = {
 
   // ---------- Leaderboards by domain ----------
   domains: ["Coding", "Agentic", "Reasoning", "Multimodal", "Mathematics", "Knowledge"],
+  // Source: Artificial Analysis evaluations (artificialanalysis.ai/evaluations), read via search
+  // snapshots dated late Sep – early Oct 2026. null = no published Artificial Analysis score for
+  // that model on that benchmark (shown as "–"). Elo / index metrics are drawn scaled to the best
+  // model on that benchmark; their labels show the raw value.
   domainLeaderboards: {
     Coding: {
       title: "Coding Benchmark Scores",
-      subtitle: "Top models across 5 coding benchmarks",
+      subtitle: "Frontier models on Artificial Analysis coding evaluations",
       benchmarks: [
-        { name: "SciCode", href: `${BASE}/benchmarks/open-benchmarks/scicode/versions/1`, color: "#3D84F7" },
-        { name: "SciCode Main Standard", href: `${BASE}/benchmarks/open-benchmarks/scicode-main-standard/versions/1`, color: "#9DC0FB" },
-        { name: "LiveCodeBench", href: `${BASE}/benchmarks/open-benchmarks/livecodebench/versions/1`, color: "#20D3C2" },
-        { name: "LiveCodeBench V6", href: `${BASE}/benchmarks/open-benchmarks/livecodebench-release-v6/versions/1`, color: "#8FE9E0" },
-        { name: "LiveCodeBench V1", href: `${BASE}/benchmarks/open-benchmarks/livecodebench-release-v1/versions/1`, color: "#FF9447" },
+        { name: "Terminal-Bench 4.0", href: "https://artificialanalysis.ai/evaluations/terminalbench-4-0", color: "#3D84F7" },
+        { name: "SciCode", href: "https://artificialanalysis.ai/evaluations/scicode", color: "#20D3C2" },
+        { name: "Coding Agent Index", href: "https://artificialanalysis.ai/agents/coding-agents", color: "#FF9447", note: "best harness for the model" },
       ],
-      // scores in benchmark order above
       models: [
-        { name: "Gemini 3.5 Flash", org: "google", scores: [12.3, 12.3, 93.0, 93.0, 95.7] },
-        { name: "o3", org: "openai", scores: [9.2, 9.2, 85.5, 85.5, 92.6] },
-        { name: "o4 mini", org: "openai", scores: [10.8, 10.8, 82.6, 82.6, 92.4] },
-        { name: "Gemma 4 31B", org: "google", scores: [8.9, 8.9, 84.8, 84.8, 89.6] },
-        { name: "GPT-5", org: "openai", scores: [0.0, 0.0, 89.6, 89.6, 93.7] },
-        { name: "Gemini 2.5 Pro Preview", org: "google", scores: [7.7, 7.7, 80.1, 80.1, 90.9] },
-        { name: "Claude Opus 4.8", org: "anthropic", scores: [12.3, 12.3, 74.2, 74.2, 84.0] },
-        { name: "o3 mini", org: "openai", scores: [7.7, 7.7, 76.4, 76.4, 86.3] },
+        { name: "Claude Sonnet 5.5", org: "anthropic", scores: [63.6, 61.0, 68.4] },
+        { name: "Claude Opus 5.5", org: "anthropic", scores: [59.6, 66.9, 66.0] },
+        { name: "GPT-6 Astra", org: "openai", scores: [59.1, null, null] },
+        { name: "Gemini 4 Argon", org: "google", scores: [57.1, 61.8, 63.8] },
+        { name: "GPT-6.1 Sol", org: "openai", scores: [56.1, null, null] },
+        { name: "Claude Fable 5.1", org: "anthropic", scores: [52.0, 63.1, null] },
+        { name: "Kimi K3", org: "moonshot", scores: [null, 59.5, null] },
+        { name: "GPT-6 Sol", org: "openai", scores: [43.9, null, null] },
       ],
-      speed: {
-        title: "Speed",
-        subtitle: "Output tokens per second · higher is better",
-        rows: [
-          { model: "o3 mini", org: "openai", value: 196, label: "~196", estimate: true },
-          { model: "Gemma 4 31B", org: "google", value: 170, label: "~170", estimate: true },
-          { model: "Gemini 3.5 Flash", org: "google", value: 165, label: "~165", estimate: true },
-          { model: "o4 mini", org: "openai", value: 158, label: "~158", estimate: true },
-          { model: "o3", org: "openai", value: 125, label: "~125", estimate: true },
-          { model: "GPT-5", org: "openai", value: 113, label: "~113", estimate: true },
-          { model: "Claude Opus 4.8", org: "anthropic", value: 64.7, label: "~64.7", estimate: true },
-          { model: "Gemini 2.5 Pro Preview", org: "google", value: 42.6, label: "~42.6", estimate: true },
-        ],
-      },
-      cost: {
-        title: "Cost per Task",
-        subtitle: "USD per task · lower is better",
-        rows: [
-          { model: "o3 mini", org: "openai", value: 0.006, label: "~$0.006", estimate: true },
-          { model: "Gemma 4 31B", org: "google", value: 0.007, label: "~$0.007", estimate: true },
-          { model: "Gemini 3.5 Flash", org: "google", value: 0.007, label: "~$0.007", estimate: true },
-          { model: "o4 mini", org: "openai", value: 0.007, label: "~$0.007", estimate: true },
-          { model: "o3", org: "openai", value: 0.03, label: "~$0.03", estimate: true },
-          { model: "GPT-5", org: "openai", value: 0.03, label: "~$0.03", estimate: true },
-          { model: "Claude Opus 4.8", org: "anthropic", value: 0.1, label: "~$0.10", estimate: true },
-          { model: "Gemini 2.5 Pro Preview", org: "google", value: 0.15, label: "~$0.15", estimate: true },
-        ],
-      },
     },
-    // The saved page only contained Coding data. Add the other domains here in the same shape.
+    Agentic: {
+      title: "Agentic Benchmark Scores",
+      subtitle: "Frontier models on Artificial Analysis agentic evaluations",
+      benchmarks: [
+        { name: "AutomationBench-AA", href: "https://artificialanalysis.ai/evaluations/automationbench-aa", color: "#3D84F7" },
+        { name: "GDPval-AA v2.1", href: "https://artificialanalysis.ai/evaluations/gdpval-aa", color: "#20D3C2", unit: "elo" },
+        { name: "AA-Briefcase v1.1", href: "https://artificialanalysis.ai/articles/aa-briefcase", color: "#FF9447", unit: "elo" },
+      ],
+      models: [
+        { name: "Gemini 4 Argon", org: "google", scores: [77.5, null, 1494] },
+        { name: "Claude Sonnet 5.5", org: "anthropic", scores: [71.8, 1839, 1811] },
+        { name: "Claude Opus 5.5", org: "anthropic", scores: [69.5, 1866, 1822] },
+        { name: "DeepSeek V4.1 Flash", org: "deepseek", scores: [68.9, 1600, null] },
+        { name: "GPT-6 Astra", org: "openai", scores: [68.5, null, null] },
+        { name: "Grok 4.6", org: "xai", scores: [66.7, null, null] },
+        { name: "Grok 4.7", org: "xai", scores: [65.6, null, 1657] },
+        { name: "GPT-6.1 Sol", org: "openai", scores: [64.9, null, null] },
+      ],
+    },
+    Reasoning: {
+      title: "Reasoning Benchmark Scores",
+      subtitle: "Frontier models on Artificial Analysis reasoning evaluations",
+      benchmarks: [
+        { name: "Humanity's Last Exam", href: "https://artificialanalysis.ai/evaluations/humanitys-last-exam", color: "#3D84F7" },
+        { name: "CritPt", href: "https://artificialanalysis.ai/evaluations/critpt", color: "#20D3C2" },
+        { name: "AA-LCR v1.1", href: "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning", color: "#FF9447" },
+      ],
+      models: [
+        { name: "Claude Opus 5.5", org: "anthropic", scores: [61.4, 31.7, 84.7] },
+        { name: "Claude Fable 5.1", org: "anthropic", scores: [59.1, null, 85.3] },
+        { name: "Gemini 4 Argon", org: "google", scores: [57.1, null, null] },
+        { name: "Claude Sonnet 5.5", org: "anthropic", scores: [55.0, 31.4, null] },
+        { name: "GPT-6 Astra", org: "openai", scores: [54.7, 31.7, null] },
+        { name: "GPT-5.6 Sol", org: "openai", scores: [null, 32.3, null] },
+        { name: "Kimi K3", org: "moonshot", scores: [null, null, 88.7] },
+        { name: "Step 5 Preview", org: "stepfun", scores: [null, null, 88.3] },
+      ],
+    },
+    Multimodal: {
+      title: "Multimodal Benchmark Scores",
+      subtitle: "Image understanding on Artificial Analysis MMMU-Pro",
+      benchmarks: [
+        { name: "MMMU-Pro", href: "https://artificialanalysis.ai/evaluations/mmmu-pro", color: "#3D84F7" },
+      ],
+      models: [
+        { name: "Claude Opus 5.5", org: "anthropic", scores: [88.0] },
+        { name: "GPT-6 Astra", org: "openai", scores: [87.0] },
+        { name: "Claude Opus 5", org: "anthropic", scores: [84.7] },
+        { name: "Gemini 3.5 Flash", org: "google", scores: [84.3] },
+        { name: "GPT-5.6 Sol", org: "openai", scores: [83.4] },
+      ],
+      footnote: "Claude Opus 5.5 and GPT-6 Astra are from the current MMMU-Pro page; the other rows are from Artificial Analysis's August 2026 snapshot.",
+    },
+    Mathematics: {
+      title: "Mathematics Benchmark Scores",
+      subtitle: "Competition math on Artificial Analysis AIME 2025",
+      benchmarks: [
+        { name: "AIME 2025", href: "https://artificialanalysis.ai/evaluations/aime-2025", color: "#3D84F7" },
+      ],
+      models: [
+        { name: "GPT-5.2 Pro", org: "openai", scores: [99.0] },
+        { name: "GPT-5 Codex", org: "openai", scores: [98.7] },
+        { name: "Gemini 3 Flash Preview", org: "google", scores: [97.0] },
+        { name: "gpt-oss-120B", org: "openai", scores: [93.4] },
+      ],
+      footnote: "Artificial Analysis no longer runs AIME on new models, so newer frontier models aren't listed here.",
+    },
+    Knowledge: {
+      title: "Knowledge Benchmark Scores",
+      subtitle: "Frontier models on Artificial Analysis knowledge evaluations",
+      benchmarks: [
+        { name: "AA-Omniscience Accuracy", href: "https://artificialanalysis.ai/evaluations/omniscience", color: "#3D84F7" },
+        { name: "AA-Omniscience Index", href: "https://artificialanalysis.ai/evaluations/omniscience", color: "#20D3C2", unit: "index" },
+        { name: "GPQA Diamond", href: "https://artificialanalysis.ai/evaluations/gpqa-diamond", color: "#FF9447" },
+      ],
+      models: [
+        { name: "Claude Fable 5.1", org: "anthropic", scores: [67.2, 43, null] },
+        { name: "Claude Opus 5.5", org: "anthropic", scores: [66.0, 46, null] },
+        { name: "Claude Fable 5", org: "anthropic", scores: [65.4, null, null] },
+        { name: "GPT-6 Astra", org: "openai", scores: [62.6, 44, 96.1] },
+        { name: "Gemini 3.8 Flash", org: "google", scores: [null, null, 95.3] },
+        { name: "Grok 4.6", org: "xai", scores: [null, null, 94.9] },
+        { name: "GPT-5.6 Sol", org: "openai", scores: [null, null, 94.1] },
+      ],
+      footnote: "AA-Omniscience Index runs from −100 to 100 and penalises wrong answers; its bars are scaled to the best model.",
+    },
   },
 
   // ---------- Explore benchmarks ----------

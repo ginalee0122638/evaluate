@@ -233,9 +233,15 @@ h1, h2, h3, h4, h5 { margin: 0; }
 .score-chart { overflow-x: auto; margin: 8px -8px 0; padding: 0 56px 0 8px; }
 .score-chart__figure {
   display: grid; grid-template-columns: 40px 1fr; grid-template-rows: auto 220px auto;
-  min-width: 860px;
+  min-width: max(560px, calc(var(--n, 8) * 108px));
 }
-.score-chart__row { display: grid; grid-template-columns: repeat(8, 1fr); column-gap: 16px; }
+.score-chart__row { display: grid; grid-template-columns: var(--cols, repeat(8, 1fr)); column-gap: 16px; }
+a.group-label { border-radius: 6px; }
+a.group-label:hover .group-label__text { text-decoration: underline; color: var(--focus); }
+.col--na .col__value { color: var(--text-3); }
+.group { justify-content: center; }
+.col { max-width: 64px; }
+.col__bar--na { height: 2px !important; background: repeating-linear-gradient(90deg, var(--border) 0 3px, transparent 3px 6px); }
 .group-label { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px 0 12px; align-self: end; }
 .group-label__text { font-size: 12px; line-height: 16px; font-weight: 600; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .score-chart__axis { position: relative; font-size: 11px; line-height: 12px; color: var(--text-3); }
@@ -248,8 +254,8 @@ h1, h2, h3, h4, h5 { margin: 0; }
 .col__value { font-size: 9px; line-height: 12px; color: var(--text-2); margin-bottom: 2px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .col__bar { width: 100%; border-radius: 3px 3px 0 0; min-height: 1px; transition: height .5s ease, filter .15s; }
 .col:hover .col__bar { filter: brightness(.9); }
-.bench-labels { display: flex; gap: 3px; height: 108px; padding-top: 6px; }
-.bench-label { flex: 1; min-width: 0; position: relative; }
+.bench-labels { display: flex; justify-content: center; gap: 3px; height: 108px; padding-top: 6px; }
+.bench-label { flex: 1; min-width: 0; max-width: 64px; position: relative; }
 .bench-label a {
   position: absolute; top: 0; left: 50%; transform-origin: 0 0; transform: rotate(60deg) translateY(-50%);
   white-space: nowrap; font-size: 10px; line-height: 12px; color: var(--text-2);

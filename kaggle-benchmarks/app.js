@@ -2,6 +2,7 @@
 (function () {
   const D = window.PAGE_DATA;
   const $ = (sel) => document.querySelector(sel);
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const logo = (org, cls = "logo-img") => {
     const o = D.orgs[org];
@@ -64,20 +65,31 @@
       return;
     }
     const ticks = [0, 25, 50, 75, 100];
+    // Elo / index metrics are drawn relative to the best model on that benchmark
+    const best = L.benchmarks.map((b, i) => Math.max(...L.models.map((m) => m.scores[i] ?? -Infinity)));
+    const fmt = (b, v) => (b.unit ? String(Math.round(v)) : v.toFixed(1));
+    const height = (b, i, v) => (b.unit ? (Math.max(v, 0) / best[i]) * 100 : v);
+    const modelHref = (name) => `model.html?m=${slug(name)}`;
+    const cols = `repeat(${L.models.length}, minmax(0, 1fr))`;
     const groups = L.models.map((m) => `
       <div role="list" aria-label="${esc(m.name)}" class="group">
-        ${m.scores.map((v, i) => `
-          <div role="listitem" class="col" title="${esc(m.name)} · ${esc(L.benchmarks[i].name)}: ${v.toFixed(1)}%">
-            <div class="col__value">${v.toFixed(1)}</div>
-            <div class="col__bar" style="height:${v}%;background:${L.benchmarks[i].color}"></div>
-          </div>`).join("")}
+        ${m.scores.map((v, i) => {
+          const b = L.benchmarks[i];
+          return v == null
+            ? `<div role="listitem" class="col col--na" title="${esc(m.name)} · ${esc(b.name)}: no published score"><div class="col__value">–</div><div class="col__bar col__bar--na"></div></div>`
+            : `<div role="listitem" class="col" title="${esc(m.name)} · ${esc(b.name)}: ${fmt(b, v)}${b.unit === "elo" ? " Elo" : b.unit ? "" : "%"}">
+            <div class="col__value">${fmt(b, v)}</div>
+            <div class="col__bar" style="height:${height(b, i, v)}%;background:${b.color}"></div>
+          </div>`;
+        }).join("")}
       </div>`).join("");
     const modelLabels = L.models.map((m) => `
-      <div class="group-label">${logo(m.org, "logo-img logo-img--20")}<div class="group-label__text">${esc(m.name)}</div></div>`).join("");
+      <a class="group-label" href="${modelHref(m.name)}" title="View ${esc(m.name)}">${logo(m.org, "logo-img logo-img--20")}<div class="group-label__text">${esc(m.name)}</div></a>`).join("");
     const benchLabels = L.models.map(() => `
       <div class="bench-labels">${L.benchmarks.map((b) => `
-        <div class="bench-label"><a href="${b.href}" title="${esc(b.name)}">${esc(b.name)}</a></div>`).join("")}
+        <div class="bench-label"><a href="${b.href}" target="_blank" rel="noopener" title="${esc(b.name)}">${esc(b.name)}</a></div>`).join("")}
       </div>`).join("");
+    const hasMetrics = L.speed && L.cost;
 
     $("#domain-panel").innerHTML = `
       <div class="panel__head">
@@ -85,10 +97,10 @@
           <h5 class="h5">${L.title}</h5>
           <p class="body2 muted">${L.subtitle}</p>
         </div>
-        <button class="btn btn--text-link">View all<span class="gs">arrow_forward</span></button>
+        <a class="btn btn--text-link" href="https://artificialanalysis.ai/evaluations" target="_blank" rel="noopener">View all<span class="gs">arrow_forward</span></a>
       </div>
-      <div class="legend legend--static">${L.benchmarks.map((b) => `<span class="legend__item"><span class="swatch" style="background:${b.color}"></span>${esc(b.name)}</span>`).join("")}</div>
-      <div class="score-chart" aria-label="Scores by model and benchmark">
+      <div class="legend legend--static">${L.benchmarks.map((b) => `<span class="legend__item"><span class="swatch" style="background:${b.color}"></span>${esc(b.name)}${b.unit === "elo" ? " (Elo)" : b.unit === "index" ? " (index)" : ""}${b.note ? ` · ${esc(b.note)}` : ""}</span>`).join("")}</div>
+      <div class="score-chart" aria-label="Scores by model and benchmark" style="--cols:${cols};--n:${L.models.length}">
         <div role="figure" class="score-chart__figure">
           <div></div>
           <div class="score-chart__row">${modelLabels}</div>
@@ -101,11 +113,8 @@
           <div class="score-chart__row">${benchLabels}</div>
         </div>
       </div>
-      <div class="metrics">
-        ${columnChart(L.speed)}
-        ${columnChart(L.cost)}
-      </div>
-      <p class="body2 muted footnote">Scores are each leaderboard's primary metric (non-percentage metrics are scaled to the best model). Speed and cost are averaged over the latest runs on these benchmarks that recorded usage. Values marked ~ are rough estimates by model size where no usage was recorded yet.</p>`;
+      ${hasMetrics ? `<div class="metrics">${columnChart(L.speed)}${columnChart(L.cost)}</div>` : ""}
+      <p class="body2 muted footnote">Scores from <a class="link" href="https://artificialanalysis.ai/evaluations" target="_blank" rel="noopener">Artificial Analysis</a>, each evaluation's primary metric. “–” means Artificial Analysis hasn't published a score for that model. Elo and index metrics are drawn relative to the best model.${L.footnote ? " " + esc(L.footnote) : ""}</p>`;
   }
   renderTabs();
   renderDomain();

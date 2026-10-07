@@ -29,7 +29,9 @@
   const fmtLat = (s) => { s = Math.round(s); const m = Math.floor(s / 60), r = s % 60; return m ? `${m}m ${String(r).padStart(2, "0")}s` : `${r}s`; };
   const fmtPct = (v) => { const s = v.toFixed(2); return (s.endsWith("0") ? v.toFixed(1) : s) + "%"; };
   const fmtMoney = (v) => "$" + (v < 1 && v >= 0.1 ? v.toFixed(2) : v < 0.1 ? v.toFixed(3) : v.toFixed(2));
-  const fmtPrice = (v) => "$" + (Number.isInteger(v) ? v : v);
+  const fmtTotal = (v) => "$" + (v >= 100 ? Math.round(v).toLocaleString("en-US") : v.toFixed(2));
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const modelHref = (r) => `model.html?m=${slug(r.model)}`;
 
   function view(r) {
     const k = state.k;
@@ -94,7 +96,6 @@
   $("#f-harness").insertAdjacentHTML("beforeend", AB.harnesses.map((h) => `<option value="${h}">${h}</option>`).join(""));
   $("#f-harness").addEventListener("change", (e) => { state.harness = e.target.value; update(); });
   $("#f-weights").addEventListener("change", (e) => { state.weights = e.target.value; update(); });
-  $("#showing").addEventListener("change", (e) => { state.showing = e.target.value; update(); });
   $("#lb-reset").addEventListener("click", () => {
     state.harness = state.weights = "";
     $("#f-harness").value = $("#f-weights").value = "";
@@ -166,7 +167,7 @@
       </div>
       <div></div>
       <div class="bars__labels">
-        ${list.map((r) => `<div class="bar-label"><img src="${P[r.provider].logo}" alt=""><span>${esc(r.model)}<br>(${effortTag(r)})</span></div>`).join("")}
+        ${list.map((r) => `<a class="bar-label" href="${modelHref(r)}" title="View ${esc(r.model)}"><img src="${P[r.provider].logo}" alt=""><span>${esc(r.model)}<br>(${effortTag(r)})</span></a>`).join("")}
       </div>`;
     requestAnimationFrame(() => requestAnimationFrame(() => {
       el.querySelectorAll(".bar__fill").forEach((b, i) => { b.style.height = b.dataset.h + "%"; prevHeights.set(list[i].id, +b.dataset.h); });
@@ -197,15 +198,14 @@
     $("#tbody").innerHTML = shown.map((r) => `
       <tr>
         <td class="c-rank">${rankOf.get(r.id)}</td>
-        <td class="c-model"><div class="mcell"><img src="${P[r.provider].logo}" alt=""><div><div class="mcell__name">${esc(r.model)}</div><div class="mcell__sub">${P[r.provider].sub}</div></div></div></td>
+        <td class="c-model"><a class="mcell" href="${modelHref(r)}" title="View ${esc(r.model)}"><img src="${P[r.provider].logo}" alt=""><div><div class="mcell__name">${esc(r.model)}</div><div class="mcell__sub">${P[r.provider].sub}</div></div></a></td>
         <td class="c-harness"><span class="tag">${r.harness}</span></td>
         <td class="c-reason"><span class="tag tag--${r.reasoning.replace(/ /g, "-")}">${r.reasoning}</span></td>
         <td class="c-num mono"><div>${fmtPct(r.s)}</div><small>±${r.ciK.toFixed(1)}%</small></td>
         <td class="c-num mono">${fmtMoney(r.costK)}${r.est ? '<sup title="Estimated: not published on zapier.com/benchmarks">†</sup>' : ""}</td>
-        <td class="c-num mono">${fmtPrice(r.price[0])} / ${fmtPrice(r.price[1])}</td>
+        <td class="c-num mono">${fmtTotal(r.costK * AB.meta.leaderboardTasks)}${r.est ? '<sup title="Estimated: not published on zapier.com/benchmarks">†</sup>' : ""}</td>
         <td class="c-num mono">${r.tokK[0]} / ${r.tokK[1]}</td>
         <td class="c-num mono">${fmtLat(r.latK)}</td>
-        <td class="c-details"><a href="${trajHref(r)}" class="traj"><span class="gs">terminal</span>Trajectories</a></td>
       </tr>`).join("");
     const more = list.length - LIMIT;
     $("#tbl-more").hidden = more <= 0;
@@ -220,7 +220,6 @@
     $("#lb-empty").hidden = !empty;
     $("#view-graph").hidden = empty || state.view !== "graph";
     $("#view-table").hidden = empty || state.view !== "table";
-    $("#showing-wrap").style.visibility = "visible";
     $("#lb-title").textContent = state.view === "table" ? "Complete Results" : "Leaderboard";
     $("#lb-sub").hidden = state.view !== "table";
     $("#lb-sub").textContent = AB.meta.resultsUpdated;

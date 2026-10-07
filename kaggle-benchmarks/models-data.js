@@ -14,6 +14,7 @@
     moonshot: { name: "Moonshot AI", logo: "assets/logos/moonshot.svg", color: "#7A3FE0", country: "China" },
     qwen: { name: "Alibaba (Qwen)", logo: "assets/logos/qwen.svg", color: "#6F69F7", country: "China" },
     meta: { name: "Meta", logo: "assets/logos/meta.svg", color: "#0866FF", country: "United States" },
+    stepfun: { name: "StepFun", logo: "assets/logos/stepfun.svg", color: "#1C64F2", country: "China" },
   };
   function providerOf(name) {
     const n = name.toLowerCase();
@@ -25,9 +26,10 @@
     if (n.startsWith("kimi")) return "moonshot";
     if (n.startsWith("qwen")) return "qwen";
     if (n.startsWith("muse")) return "meta";
+    if (n.startsWith("step")) return "stepfun";
     return "openai";
   }
-  const OPEN = new Set(["gemma-4-31b", "deepseek-v4-flash", "deepseek-v3", "deepseek-r1", "kimi-k3"]);
+  const OPEN = new Set(["gemma-4-31b", "deepseek-v4-flash", "deepseek-v4-1-flash", "deepseek-v3", "deepseek-r1", "kimi-k3", "gpt-oss-120b"]);
 
   const models = new Map();
   function get(name) {
@@ -64,11 +66,16 @@
   });
   rankList([...abBest], "AutomationBench", "automationbench.html", AB.meta.modelsBenchmarked, (v) => v.toFixed(2) + "%");
 
-  /* ---- Home page: coding leaderboards ---- */
-  const C = D.domainLeaderboards.Coding;
-  C.benchmarks.forEach((b, i) => rankList(C.models.map((m) => [m.name, m.scores[i]]), b.name, b.href, 0, (v) => v.toFixed(1) + "%"));
-  C.speed.rows.forEach((r) => (get(r.model).specs.speed = r.label + " tok/s"));
-  C.cost.rows.forEach((r) => (get(r.model).specs.codingCost = r.label));
+  /* ---- Home page: domain leaderboards (Artificial Analysis evaluations) ---- */
+  Object.values(D.domainLeaderboards).forEach((L) => {
+    L.benchmarks.forEach((b, i) => {
+      const list = L.models.filter((m) => m.scores[i] != null).map((m) => [m.name, m.scores[i]]);
+      const fmt = b.unit === "elo" ? (v) => Math.round(v) + " Elo" : b.unit === "index" ? (v) => String(Math.round(v)) : (v) => v.toFixed(1) + "%";
+      rankList(list, b.name, b.href, 0, fmt, false, b.unit ? "" : "%");
+    });
+    if (L.speed) L.speed.rows.forEach((r) => (get(r.model).specs.speed = r.label + " tok/s"));
+    if (L.cost) L.cost.rows.forEach((r) => (get(r.model).specs.codingCost = r.label));
+  });
 
   /* ---- Home page: new benchmarks (top 6 shown) + explore cards ---- */
   const ofCount = {};

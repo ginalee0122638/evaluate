@@ -71,13 +71,6 @@
                   <button role="radio" aria-checked="false" class="seg__btn" data-k="3">pass@3</button>
                   <button role="radio" aria-checked="false" class="seg__btn" data-k="5">pass@5</button>
                 </div>
-                <label class="ab-select ab-select--plain" id="showing-wrap">
-                  <select id="showing">
-                    <option value="top">Showing Top Score</option>
-                    <option value="all">Showing All Runs</option>
-                  </select>
-                  <span class="gs">expand_more</span>
-                </label>
               </div>
               <div class="lb-controls__right">
                 <label class="ab-select"><span class="ab-select__label">Harness</span>
@@ -109,10 +102,9 @@
                       <th class="c-reason">Reasoning level</th>
                       <th class="c-num c-sort is-sorted" data-sort="score"><span class="gs">arrow_upward</span>Score</th>
                       <th class="c-num c-sort" data-sort="cost">Cost / Task</th>
-                      <th class="c-num">Input / Output $</th>
+                      <th class="c-num" title="Cost per task × 657 tasks in the private leaderboard set">Total Cost</th>
                       <th class="c-num">Input / Output Tok</th>
                       <th class="c-num">Avg Latency</th>
-                      <th class="c-details">Details</th>
                     </tr>
                   </thead>
                   <tbody id="tbody"></tbody>
