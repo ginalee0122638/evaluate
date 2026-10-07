@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="description" content="Build, run, and share benchmarks for evaluating AI models and agents. Crowdsourced by the AI research community on Kaggle.">
+  <meta name="theme-color" content="#008ABC">
+  <title>Find Benchmarks | Kaggle</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- ================= Side navigation ================= -->
+    <nav class="sidenav" aria-label="Main Kaggle page navigation" id="sidenav">
+      <div class="sidenav__brand">
+        <button class="icon-btn" aria-label="Navigation menu" title="Navigation menu" data-toggle-nav><span class="gs">menu</span></button>
+        <a href="#site-content" class="skip-link">Skip to<br>content</a>
+        <a href="#" class="logo" aria-label="Return to Kaggle home page"><span class="logo__word">kaggle</span></a>
+      </div>
+
+      <div class="sidenav__create">
+        <button class="create-btn">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <path d="M20 30L20 16L16 20L16 30L20 30Z" fill="#20BEFF"/>
+            <path d="M20 20L30 20L30 16L20 16L20 20Z" fill="#20BEFF"/>
+            <path d="M16 20L20 16L15.937 16L6 16L6 20L16 20Z" fill="#20BEFF"/>
+            <rect x="16" y="6" width="4" height="10" fill="#20BEFF"/>
+          </svg>
+          <span>Create</span>
+        </button>
+      </div>
+
+      <div class="sidenav__search search search--mobile">
+        <span class="gs">search</span><input type="text" placeholder="Search">
+      </div>
+
+      <ul class="navlist" role="list">
+        <li><a class="navitem" href="#"><span class="gs">explore</span><span class="navitem__label">Home</span></a></li>
+        <li><a class="navitem" href="#"><span class="gs">emoji_events</span><span class="navitem__label">Competitions</span></a></li>
+        <li class="navgroup">
+          <a class="navitem is-active" aria-current="page" href="#"><span class="gs gs--fill">leaderboard</span><span class="navitem__label">Benchmarks <span>🪿🥣</span></span></a>
+          <ul class="navlist navlist--sub" role="list">
+            <li><a class="navitem navitem--dense" href="#"><span class="navitem__label">Benchmark Index <span>🪿🥣</span></span></a></li>
+          </ul>
+        </li>
+        <li><a class="navitem" href="#"><span class="gs">smart_toy</span><span class="navitem__label">Game Arena</span></a></li>
+      </ul>
+      <ul class="navlist" role="list">
+        <li class="navitem-row">
+          <a class="navitem" href="#"><span class="gs">code</span><span class="navitem__label">Data Hub</span></a>
+          <button class="icon-btn icon-btn--sm" aria-label="Expand" title="Expand"><span class="gs">expand_more</span></button>
+        </li>
+      </ul>
+      <ul class="navlist" role="list">
+        <li class="navitem-row">
+          <a class="navitem" href="#"><span class="gs">format_list_bulleted</span><span class="navitem__label">More</span></a>
+          <button class="icon-btn icon-btn--sm" aria-label="Expand" title="Expand"><span class="gs">expand_more</span></button>
+        </li>
+      </ul>
+    </nav>
+    <div class="scrim" data-toggle-nav></div>
+
+    <!-- ================= Top bar ================= -->
+    <nav class="topbar" aria-label="Main menu, search and your account">
+      <div class="topbar__brand">
+        <button class="icon-btn" aria-label="Navigation menu" title="Navigation menu" data-toggle-nav><span class="gs">menu</span></button>
+        <a href="#" class="logo" aria-label="Return to Kaggle home page"><span class="logo__word">kaggle</span></a>
+      </div>
+      <div class="search">
+        <span class="gs">search</span><input type="text" placeholder="Search">
+      </div>
+      <div class="topbar__account">
+        <a href="#" class="btn btn--text">Sign In</a>
+        <a href="#" class="btn btn--outlined">Register</a>
+      </div>
+    </nav>
+
+    <!-- ================= Main ================= -->
+    <div class="main" role="main" id="site-content">
+      <div class="cookie-bar" id="cookie-bar">
+        <div class="cookie-bar__text">Kaggle uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic.</div>
+        <div class="cookie-bar__actions">
+          <a href="#" class="cookie-bar__btn">Learn more</a>
+          <button class="cookie-bar__btn" data-dismiss-cookies>OK, Got it.</button>
+        </div>
+      </div>
+
+      <div class="page">
+        <!-- Hero -->
+        <section class="hero" aria-label="Kaggle Benchmarks">
+          <div class="hero__eyebrow">Kaggle · Benchmarks</div>
+          <h1 class="hero__title">The Trusted Home for AI Benchmarks.</h1>
+          <span class="hero__lede">Explore evaluations across the latest benchmarks shaping AI. Kaggle combines trusted evaluation infrastructure, reproducible methodology, and community-powered insights. View <a class="link" href="#">Documentation</a> or the <a class="link" aria-label="Benchmarks SDK opens in new window" href="https://github.com/Kaggle/kaggle-benchmarks" target="_blank" rel="noopener">Benchmarks SDK</a>.</span>
+          <div class="hero__actions">
+            <button class="btn btn--primary"><span class="gs">add</span><span>Create</span></button>
+            <button class="btn btn--outlined">Partner with us</button>
+            <div class="hero__stats" id="hero-stats"></div>
+          </div>
+        </section>
+
+        <!-- Leaderboards by domain -->
+        <section class="section">
+          <h2 class="h2">Leaderboards by domain</h2>
+          <div class="tabs" role="tablist" aria-label="Domain" id="domain-tabs"></div>
+          <div class="panel" id="domain-panel"></div>
+        </section>
+
+        <!-- Explore benchmarks -->
+        <section class="section">
+          <div class="section__head">
+            <div>
+              <h2 class="h2">Explore benchmarks</h2>
+              <p class="body2 muted">Benchmarks and leaderboards from top AI labs, researchers and the Kaggle community.</p>
+            </div>
+            <div class="section__actions">
+              <button class="icon-btn icon-btn--outlined" aria-label="Search benchmarks" title="Search benchmarks"><span class="gs">search</span></button>
+              <button class="btn btn--text-link">View all<span class="gs">arrow_forward</span></button>
+            </div>
+          </div>
+          <div class="bench-grid" role="list" id="explore-grid"></div>
+        </section>
+
+        <!-- New models -->
+        <section class="section">
+          <div class="section__head">
+            <div>
+              <h2 class="h2">New models</h2>
+              <p class="body2 muted">See how models stack up on benchmarks.</p>
+            </div>
+            <div class="section__actions">
+              <a class="btn btn--text-link" id="new-models-all" href="#">View all<span class="gs">arrow_forward</span></a>
+            </div>
+          </div>
+          <div class="accordion-row" id="new-models"></div>
+        </section>
+
+        <!-- Score progression -->
+        <section class="section">
+          <div class="panel panel--chart">
+            <h5 class="h5" id="prog-title"></h5>
+            <p class="body2 muted" id="prog-subtitle"></p>
+            <svg viewBox="0 0 960 300" role="img" aria-label="Composite score over time by model family" class="progression" id="progression"></svg>
+            <div class="legend" id="prog-legend"></div>
+          </div>
+        </section>
+
+        <!-- New Benchmarks -->
+        <section class="section">
+          <div class="section__head">
+            <div>
+              <h2 class="h2">New Benchmarks</h2>
+              <p class="body2 muted">See our latest benchmarks run on Kaggle</p>
+            </div>
+            <div class="section__actions">
+              <button class="btn btn--text-link">View all<span class="gs">arrow_forward</span></button>
+            </div>
+          </div>
+          <div class="accordion-row" id="new-benchmarks"></div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta" aria-labelledby="bring-your-own">
+          <h3 id="bring-your-own" class="cta__title">Bring a benchmark. Bring a model. Bring both.</h3>
+          <p class="cta__text">The harness, the scores, and the runs are open. Add yours to the loop.</p>
+          <div class="cta__actions"><button class="btn btn--outlined">Submit a benchmark</button></div>
+        </section>
+      </div>
+      <div class="visually-hidden" role="alert" aria-live="polite" aria-atomic="true">1102 Results found</div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

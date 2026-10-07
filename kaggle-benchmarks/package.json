@@ -1,0 +1,8 @@
+{
+  "name": "kaggle-benchmarks-replica",
+  "private": true,
+  "description": "Editable local replica of Kaggle's Find Benchmarks page",
+  "scripts": {
+    "dev": "node dev-server.js 5173"
+  }
+}
