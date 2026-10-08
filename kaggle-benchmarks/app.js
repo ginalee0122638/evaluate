@@ -100,7 +100,7 @@
         <a class="btn btn--text-link" href="#explore">View all<span class="gs">arrow_forward</span></a>
       </div>
       <div class="legend legend--static">${L.benchmarks.map((b) => `<span class="legend__item"><span class="swatch" style="background:${b.color}"></span>${esc(b.name)}${b.unit === "elo" ? " (Elo)" : b.unit === "index" ? " (index)" : b.unit === "usd" ? " (final funds)" : ""}${b.note ? ` · ${esc(b.note)}` : ""}</span>`).join("")}</div>
-      <div class="score-chart" aria-label="Scores by model and benchmark" style="--cols:${cols};--n:${L.models.length}">
+      <div class="score-chart" aria-label="Scores by model and benchmark" style="--cols:${cols};--n:${L.models.length};--gw:${Math.max(108, L.benchmarks.length * 20 + 36)}px">
         <div role="figure" class="score-chart__figure">
           <div></div>
           <div class="score-chart__row">${modelLabels}</div>
@@ -141,7 +141,7 @@
       <div role="listitem" class="bench-card">
         <a href="${b.href}" class="bench-card__link" aria-label="${esc(b.title)} benchmark">
           <div class="bench-card__head">
-            <div class="bench-card__title" title="${esc(b.title)}">${esc(b.title)}</div>
+            <div class="bench-card__title" title="${esc(b.title)}">${esc(b.title)}${b.isNew ? ' <span class="new-tag">New</span>' : ""}</div>
             <span class="bench-card__subtitle" title="${esc(b.subtitle)}">${esc(b.subtitle)}</span>
             <div class="owner">
               <div class="avatar" aria-hidden="true">
@@ -171,20 +171,6 @@
     count.textContent = n;
     count.setAttribute("aria-label", `${n} votes`);
   });
-
-  /* ---------------- Accordion rows (New models / New Benchmarks) ---------------- */
-  function accordion(container, onActivate) {
-    container.addEventListener("mouseover", (e) => {
-      const card = e.target.closest(".acc-card");
-      if (!card || card.classList.contains("is-open")) return;
-      container.querySelectorAll(".acc-card").forEach((c) => c.classList.toggle("is-open", c === card));
-      onActivate && onActivate(card);
-    });
-    container.addEventListener("focusin", (e) => {
-      const card = e.target.closest(".acc-card");
-      if (card) card.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
-    });
-  }
 
   /* ---------------- New Release Rankings (hero widget) ---------------- */
   (function () {
@@ -230,30 +216,5 @@
     if (R.length) show(0, false);
   })();
 
-  /* ---------------- New Benchmarks ---------------- */
-  $("#new-benchmarks").innerHTML = D.newBenchmarks.map((b, i) => {
-    const vals = b.rows.map((r) => r[2]);
-    const max = Math.max(...vals), min = Math.min(...vals);
-    const cols = b.rows.map(([name, org, v]) => {
-      const h = max === min ? 100 : 55 + 45 * ((v - min) / (max - min));
-      return `
-        <div title="${esc(name)}: ${b.format(v)}" class="nb-col" style="--accent:${D.orgs[org].color}">
-          <div class="nb-col__barwrap">
-            <div class="nb-col__value">${b.format(v)}</div>
-            <div class="nb-col__bar" style="height:${h}%"></div>
-          </div>
-          ${logo(org, "logo-img nb-col__logo")}
-          <div class="nb-col__name">${esc(name)}</div>
-        </div>`;
-    }).join("");
-    return `
-      <a href="${b.href}" class="acc-card nb-card${i === 0 ? " is-open" : ""}">
-        <div class="acc-card__top">
-          <div class="acc-card__name acc-card__name--bench">${esc(b.title)}</div>
-          ${b.released ? `<div class="acc-card__date">Release date<br>${b.released}</div>` : ""}
-        </div>
-        <div class="nb-cols">${cols}</div>
-      </a>`;
-  }).join("");
-  accordion($("#new-benchmarks"));
+
 })();

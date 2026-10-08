@@ -1,5 +1,5 @@
 // Builds the model index used by models.html and model.html from data already on the site:
-// data.js (benchmark catalog, Explore tiles, New Benchmarks) and ab-data.js (AutomationBench).
+// data.js (benchmark catalog) and ab-data.js (AutomationBench).
 // SPECS below come from public model cards and pricing pages (via the modelspec dataset);
 // Gemini 4 Argon's are from its launch page.
 (function () {
@@ -99,23 +99,10 @@
   rankList([...abBest.values()].map((r) => [r.model, r.score, { ci: r.ci, cost: r.cost, costEst: r.est, lat: r.lat }]),
     { benchmark: "AutomationBench", href: "automationbench.html", domain: "Agentic", of: AB.meta.modelsBenchmarked, fmt: (v) => v.toFixed(2) + "%", unit: "%" });
 
-  /* ---- Benchmark catalog (the benchmarks on the home page) ---- */
+  /* ---- Benchmark catalog (every benchmark on the home page) ---- */
   D.benchmarkCatalog.forEach((b) => {
+    if (b.title === "AutomationBench") return; // already ranked above from the full Zapier board
     rankList(b.results.map((r) => [r[0], r[2]]), { benchmark: b.title, href: b.href, domain: b.domain, of: b.results.length + b.more, fmt: b.format, unit: b.unit });
-  });
-
-  /* ---- Other Explore tiles + New Benchmarks ---- */
-  const DOMAIN_OF = { "Code2Video Bench": "Multimodal", "Terminal-Bench 4.0": "Coding", "Harvey’s Legal Agent Benchmark": "Agentic" };
-  const seen = new Set(["AutomationBench", ...D.benchmarkCatalog.map((b) => b.title)]);
-  const ofCount = {};
-  D.exploreBenchmarks.forEach((b) => (ofCount[b.title] = b.top.length + b.more));
-  D.newBenchmarks.forEach((b) => {
-    if (seen.has(b.title)) return; seen.add(b.title);
-    rankList(b.rows.map((r) => [r[0], r[2]]), { benchmark: b.title, href: b.href, domain: DOMAIN_OF[b.title] || "Multimodal", of: ofCount[b.title], fmt: b.format, unit: "" });
-  });
-  D.exploreBenchmarks.forEach((b) => {
-    if (seen.has(b.title)) return; seen.add(b.title);
-    b.top.forEach((t) => addResult(t.model, { benchmark: b.title, href: b.href, domain: DOMAIN_OF[b.title] || "Agentic", value: t.raw, display: t.score, rank: t.rank, of: ofCount[b.title], max: b.top[0].raw, unit: /%$/.test(t.score) ? "%" : "" }));
   });
 
   const list = [...models.values()];

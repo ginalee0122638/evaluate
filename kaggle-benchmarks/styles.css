@@ -233,7 +233,7 @@ h1, h2, h3, h4, h5 { margin: 0; }
 .score-chart { overflow-x: auto; margin: 8px -8px 0; padding: 0 56px 0 8px; }
 .score-chart__figure {
   display: grid; grid-template-columns: 40px 1fr; grid-template-rows: auto 220px auto;
-  min-width: max(560px, calc(var(--n, 8) * 108px));
+  min-width: max(560px, calc(var(--n, 8) * var(--gw, 108px)));
 }
 .score-chart__row { display: grid; grid-template-columns: var(--cols, repeat(8, 1fr)); column-gap: 16px; }
 a.group-label { border-radius: 6px; }
@@ -453,3 +453,47 @@ a.group-label:hover .group-label__text { text-decoration: underline; color: var(
 @media (max-width: 1100px) { .hero-zone { grid-template-columns: 1fr; gap: 0; } .rank { margin-top: 8px; } }
 .empty .gs { font-size: 32px; color: var(--text-3); }
 .empty p + p { margin-top: 4px; font-size: 13px; }
+
+/* ---------------- "New" tag on benchmark tiles ---------------- */
+.new-tag {
+  display: inline-flex; align-items: center; height: 20px; padding: 0 8px; margin-left: 6px; vertical-align: 2px;
+  border-radius: 10px; background: #e8f0fe; color: #1a56c4; font-size: 11px; font-weight: 600; letter-spacing: .02em;
+}
+
+/* ---------------- Why trust Kaggle (light yellow, black type, light-blue accents) ---------------- */
+.trust-k {
+  position: relative; overflow: hidden; margin-top: 16px; padding: 40px 40px 0; border-radius: 24px;
+  background: linear-gradient(180deg, #fffbe6 0%, #fff6d1 100%); border: 1px solid #f3e7b3; color: #111;
+}
+.trust-k::after { /* soft light-blue glow */
+  content: ""; position: absolute; right: -120px; top: -160px; width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(173, 216, 255, .55), transparent); pointer-events: none;
+}
+.trust-k__head { position: relative; z-index: 1; max-width: 720px; }
+.trust-k__eyebrow { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #1a56c4; }
+.trust-k__title { margin-top: 10px; font-size: 32px; line-height: 40px; font-weight: 700; letter-spacing: -0.02em; color: #111; }
+.trust-k__lede { margin-top: 8px; font-size: 16px; line-height: 24px; color: #3a3a3a; }
+.trust-k__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.tk { padding: 24px; border-radius: 16px; background: rgba(255, 255, 255, .72); border: 1px solid #f0e3a8; transition: border-color .2s, transform .2s, box-shadow .2s; }
+.tk:hover { border-color: #b9dcff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26, 86, 196, .08); }
+.tk__top { display: flex; align-items: center; justify-content: space-between; }
+.tk__num { font-size: 13px; font-weight: 600; color: #8a7d4a; font-variant-numeric: tabular-nums; }
+.tk__icon { width: 44px; height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: #e6f2ff; color: #1a56c4; font-size: 24px; }
+.tk__title { margin-top: 18px; font-size: 21px; line-height: 28px; font-weight: 700; color: #111; }
+.tk__text { margin-top: 8px; font-size: 14px; line-height: 22px; color: #2b2b2b; }
+.tk__list { list-style: none; margin: 16px 0 0; padding: 14px 0 0; border-top: 1px solid #efe2a9; display: grid; gap: 8px; }
+.tk__list li { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 20px; color: #1f1f1f; }
+.tk__list .gs { font-size: 18px; color: #3b82f6; }
+.trust-k__stats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); margin: 28px -40px 0; border-top: 1px solid #efe2a9; background: rgba(230, 242, 255, .45); }
+.trust-k__stats > div { padding: 18px 40px; display: flex; align-items: baseline; gap: 10px; }
+.trust-k__stats > div + div { border-left: 1px solid #efe2a9; }
+.trust-k__stats b { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: #111; }
+.trust-k__stats span { font-size: 13px; color: #4a4a4a; }
+@media (max-width: 1023px) { .trust-k__grid { grid-template-columns: 1fr; } }
+@media (max-width: 719px) {
+  .trust-k { padding: 28px 20px 0; }
+  .trust-k__title { font-size: 24px; line-height: 32px; }
+  .trust-k__stats { grid-template-columns: 1fr; margin: 24px -20px 0; }
+  .trust-k__stats > div { padding: 14px 20px; }
+  .trust-k__stats > div + div { border-left: 0; border-top: 1px solid #efe2a9; }
+}

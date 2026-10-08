@@ -39,9 +39,55 @@
         </aside>
         </div>
 
-        <!-- Leaderboards by domain -->
+        <!-- Why trust Kaggle -->
+        <section class="trust-k" aria-labelledby="why-trust">
+          <div class="trust-k__head">
+            <div class="trust-k__eyebrow">Why Kaggle</div>
+            <h2 id="why-trust" class="trust-k__title">Why trust Kaggle’s Benchmark Platform?</h2>
+            <p class="trust-k__lede">Results people can trust, because they can check them.</p>
+          </div>
+          <div class="trust-k__grid">
+            <article class="tk">
+              <div class="tk__top"><span class="tk__num">01</span><span class="gs tk__icon">visibility</span></div>
+              <h3 class="tk__title">Transparency</h3>
+              <p class="tk__text">Every run is open to inspection: prompts, model outputs, scores and cost are logged and public, so anyone can see exactly how a number was produced.</p>
+              <ul class="tk__list">
+                <li><span class="gs">check</span>Open methodology on every leaderboard</li>
+                <li><span class="gs">check</span>Per-task outputs and run logs</li>
+                <li><span class="gs">check</span>Speed and cost reported alongside scores</li>
+              </ul>
+            </article>
+            <article class="tk">
+              <div class="tk__top"><span class="tk__num">02</span><span class="gs tk__icon">hub</span></div>
+              <h3 class="tk__title">Comprehensiveness</h3>
+              <p class="tk__text">Benchmarks are run on models from every major lab, and new models are added as they launch, so leaderboards never go stale.</p>
+              <ul class="tk__list">
+                <li><span class="gs">check</span>123 models evaluated and counting</li>
+                <li><span class="gs">check</span>Text, multimodal and agentic tasks</li>
+                <li><span class="gs">check</span>New frontier models ranked as they ship</li>
+              </ul>
+            </article>
+            <article class="tk">
+              <div class="tk__top"><span class="tk__num">03</span><span class="gs tk__icon">replay</span></div>
+              <h3 class="tk__title">Reproducibility</h3>
+              <p class="tk__text">Tasks, datasets and harnesses are versioned, so any score on Kaggle can be re-run and checked, by you or by anyone else.</p>
+              <ul class="tk__list">
+                <li><span class="gs">check</span>Versioned tasks and datasets</li>
+                <li><span class="gs">check</span>Open-source Benchmarks SDK harness</li>
+                <li><span class="gs">check</span>Build and test from your own dev environment</li>
+              </ul>
+            </article>
+          </div>
+          <div class="trust-k__stats">
+            <div><b>1,083</b><span>benchmarks hosted</span></div>
+            <div><b>123</b><span>models evaluated</span></div>
+            <div><b>10,000+</b><span>community-built tasks</span></div>
+          </div>
+        </section>
+
+        <!-- Leaderboards -->
         <section class="section">
-          <h2 class="h2">Leaderboards by domain</h2>
+          <h2 class="h2">Leaderboards</h2>
           <div class="tabs" role="tablist" aria-label="Domain" id="domain-tabs"></div>
           <div class="panel" id="domain-panel"></div>
         </section>
@@ -59,20 +105,6 @@
             </div>
           </div>
           <div class="bench-grid" role="list" id="explore-grid"></div>
-        </section>
-
-        <!-- New Benchmarks -->
-        <section class="section">
-          <div class="section__head">
-            <div>
-              <h2 class="h2">New Benchmarks</h2>
-              <p class="body2 muted">See our latest benchmarks run on Kaggle</p>
-            </div>
-            <div class="section__actions">
-              <button class="btn btn--text-link">View all<span class="gs">arrow_forward</span></button>
-            </div>
-          </div>
-          <div class="accordion-row" id="new-benchmarks"></div>
         </section>
 
         <!-- CTA -->
